@@ -2,10 +2,7 @@
 from iotbot import IOTBOT, GroupMsg, Action
 
 bot = IOTBOT(1738317487)
-# action = Action(1738317487)
-action = Action()
-action.bind_bot(bot)
-# action = Action(bot) # type(bot) == IOTBOT
+action = Action(bot)
 
 @bot.on_group_msg
 def group(ctx: GroupMsg):
