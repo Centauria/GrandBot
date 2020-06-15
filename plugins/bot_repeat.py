@@ -2,7 +2,6 @@
 import time
 import json
 import random
-import urllib
 from iotbot import GroupMsg, Action
 
 from util.config import qq
