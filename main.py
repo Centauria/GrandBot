@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from iotbot import IOTBOT, GroupMsg, FriendMsg, Action
 
-bot = IOTBOT(1738317487,bot_repeat=True)
+from util import configuration
+
+bot = IOTBOT(configuration.qq, use_plugins=True)
 action = Action(bot)
 
 
@@ -10,5 +12,6 @@ def friend(ctx: FriendMsg):
     print(f"""内容为：{ctx.Content}""")
     print(ctx.get('CurrentQQ'))
     action.send_friend_text_msg(ctx.FromUin, ctx.Content)
+
 
 bot.run()

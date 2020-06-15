@@ -4,7 +4,7 @@ import json
 import random
 from iotbot import GroupMsg, Action
 
-from util.config import qq
+from util import configuration
 
 p = 0.5
 delay_time = 4
@@ -13,7 +13,7 @@ delay_time = 4
 def receive_group_msg(ctx: GroupMsg):
     if random.random() < p and ctx.FromUserId != qq:
         time.sleep(random.random() * delay_time)
-        action = Action(qq)
+        action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             action.send_group_text_msg(ctx.FromGroupId, ctx.Content)
         elif ctx.MsgType == 'PicMsg':
