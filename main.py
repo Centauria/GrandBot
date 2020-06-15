@@ -13,6 +13,4 @@ def group(ctx: GroupMsg):
     print(ctx.get('CurrentQQ'))
     action.send_friend_text_msg(ctx.FromUin, '1')
 
-
 bot.run()
-
