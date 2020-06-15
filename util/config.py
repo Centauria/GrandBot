@@ -1,2 +1,7 @@
 # -*- coding: utf-8 -*-
-qq = 1738317487
+from pyhocon import ConfigFactory
+
+
+def load_config():
+    config = ConfigFactory.parse_file('../config.conf')
+    return config
