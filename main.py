@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
-from iotbot import IOTBOT, GroupMsg, Action
+from iotbot import IOTBOT, GroupMsg, FriendMsg, Action
 
-bot = IOTBOT(1738317487)
+bot = IOTBOT(1738317487,bot_repeat=True)
 action = Action(bot)
 
-@bot.on_group_msg
-def group(ctx: GroupMsg):
-    print(f"""{ctx.FromNickName}在{ctx.MsgTime}的时候，发了一个类型是{ctx.MsgType}的消息，内容为：
-{ctx.Content}""")
-    print(ctx.get('CurrentQQ'))
-    action.send_friend_text_msg(ctx.FromUin, '1')
 
 @bot.on_friend_msg
 def friend(ctx: FriendMsg):
-    print(f"""{ctx.FromNickName}在{ctx.MsgTime}的时候，发了一个类型是{ctx.MsgType}的消息，内容为：
-    {ctx.Content}""")
+    print(f"""内容为：{ctx.Content}""")
     print(ctx.get('CurrentQQ'))
-    action.send_friend_text_msg(ctx.FromUin, '1')
+    action.send_friend_text_msg(ctx.FromUin, ctx.Content)
 
 bot.run()
