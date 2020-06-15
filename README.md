@@ -1,2 +1,2 @@
 # GrandBot
-基于IOTBOT的一些沙雕插件
+基于python-IOTBOT的一些沙雕Python插件
