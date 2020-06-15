@@ -11,7 +11,7 @@ delay_time = 4
 
 
 def receive_group_msg(ctx: GroupMsg):
-    if random.random() < p and ctx.FromUserId != qq:
+    if random.random() < p and ctx.FromUserId != configuration.qq:
         time.sleep(random.random() * delay_time)
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
