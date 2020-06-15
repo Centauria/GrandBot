@@ -13,6 +13,9 @@ def group(ctx: GroupMsg):
 
 @bot.on_friend_msg
 def friend(ctx: FriendMsg):
+    print(f"""{ctx.FromNickName}在{ctx.MsgTime}的时候，发了一个类型是{ctx.MsgType}的消息，内容为：
+    {ctx.Content}""")
+    print(ctx.get('CurrentQQ'))
     action.send_friend_text_msg(ctx.FromUin, '1')
 
 bot.run()
