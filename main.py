@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
-from numpy import *
+from iotbot import IOTBOT, GroupMsg
 
-a = 1
-b = 233333
-c = 0
+bot = IOTBOT(1738317487)
+
+
+@bot.on_group_msg
+def group(ctx: GroupMsg):
+    print(f"""
+{ctx.FromNickName}在{ctx.MsgTime}的时候，发了一个类型是{ctx.MsgType}的消息，内容为：
+{ctx.Content}""")
+    print(ctx.get('CurrentQQ'))
+
+
+bot.run()
