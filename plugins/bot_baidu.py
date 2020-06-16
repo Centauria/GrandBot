@@ -9,23 +9,34 @@ from util import configuration
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
-        if ctx.MsgType == 'TextMsg' and judge_msg(ctx.Content, "百度 "):
-            baidu_content = get_text(ctx.Content[3:])
-            if baidu_content == "":
-                action.send_group_text_msg(ctx.FromGroupId, "爷没有搜索到结果！")
-            else:
-                action.send_group_text_msg(ctx.FromGroupId, baidu_content)
+        if ctx.MsgType == 'TextMsg':
+
+            command = ctx.Content.split(' ')
+            if command[0] == "百度" and len(command) > 1:
+                baidu_content = get_text(command[1])
+                url_new = "https:" + get_html_url("https://baike.baidu.com/search/word?word=" + command[1])
+                print("内容", baidu_content, baidu_content == "")
+
+                if baidu_content == "":
+                    action.send_group_text_msg(ctx.FromGroupId, "爷没有搜索到结果！")
+                else:
+                    if len(command) == 2:
+                        action.send_group_text_msg(ctx.FromGroupId, baidu_content[:] + url_new)
+                    elif len(command) == 3:
+                        try:
+                            i = int(command[2])
+                        except:
+                            action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+                        if i > 0:
+                            action.send_group_text_msg(ctx.FromGroupId, baidu_content[:i] + "......\n\n" + url_new)
+                        else:
+                            action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+                    else:
+                        action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
 
 
-# 命令判断
-def judge_msg(msg, key):
-    for i in range(len(key)):
-        if msg[i] != key[i]:
-            return False
-    return True
 
-
-# 获取html
+# 获取html_text
 def get_html_text(url):
     kv = {
         "User-agent": "Mozilla/5.0"  # 模拟浏览器
@@ -35,6 +46,18 @@ def get_html_text(url):
         r.raise_for_status()
         r.encoding = r.apparent_encoding
         return r.text
+    except:
+        return "ERROR"
+
+
+# 获取html_url
+def get_html_url(url):
+    kv = {
+        "User-agent": "Mozilla/5.0"  # 模拟浏览器
+    }
+    try:
+        r = requests.head(url, timeout=30, headers=kv)
+        return r.headers['Location']
     except:
         return "ERROR"
 
