@@ -21,3 +21,4 @@ def receive_group_msg(ctx: GroupMsg):
             for pic_content in pic_msg['GroupPic']:
                 action.send_group_pic_msg(ctx.FromGroupId, fileMd5=pic_content['FileMd5'],
                                           picBase64Buf=pic_content['ForwordBuf'])
+
