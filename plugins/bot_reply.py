@@ -12,6 +12,7 @@ p = 0.5
 q = 0.25
 delay_time = 1.5
 
+
 # 收到消息以p的概率回复
 # 回复时以q的概率复读
 
@@ -38,7 +39,6 @@ def receive_group_msg(ctx: GroupMsg):
 
 
 def replace_text_msg(msg):
-
     r = random.random()
     reply_set = []
     s = msg
@@ -62,7 +62,7 @@ def replace_text_msg(msg):
     elif reply_set == []:
         return ""
     else:
-        n = random.randint(0, len(reply_set)-1)
+        n = random.randint(0, len(reply_set) - 1)
         return reply_set[n]
 
 
@@ -73,7 +73,7 @@ def judge_pos(msg, key, pos):
             return True
     elif pos == -1:
         for i in range(len(key)):
-            if msg[-i-1] != key[-i-1]:
+            if msg[-i - 1] != key[-i - 1]:
                 return False
         return True
     else:
@@ -91,19 +91,19 @@ def replace_pos(msg, key, reply, pos):
     elif pos == -1:
         # 检验是否相同
         for i in range(len(key)):
-            if msg[-i-1] != key[-i-1]:
+            if msg[-i - 1] != key[-i - 1]:
                 return msg
         # 替换
-        s = msg[0:len(msg)-len(key)]
+        s = msg[0:len(msg) - len(key)]
         s = s + reply
         return s
     else:
         # 检验是否相同
         for i in range(len(key)):
-            if msg[pos+i] != key[i]:
+            if msg[pos + i] != key[i]:
                 return msg
         # 替换
         s = msg[0:pos]
         s = s + reply
-        s = s + msg[pos+len(key):]
+        s = s + msg[pos + len(key):]
         return s
