@@ -31,7 +31,7 @@ def on_friend_msg(ctx: FriendMsg):
             bot.refresh_plugins()
             action.send_friend_text_msg(ctx.FromUin, '插件已刷新')
         elif content == 'test':
-            action.send_friend_pic_msg(ctx.FromUin, 'https://t.cn/A6Am7xYO')
+            action.send_friend_pic_msg(ctx.FromUin, content='', picUrl='https://t.cn/A6Am7xYO')
         else:
             action.send_friend_text_msg(ctx.FromUin, '不要乱发指令啊喂')
 
