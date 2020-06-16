@@ -49,3 +49,4 @@ def insert_group_msg(ctx):
         ))
     else:
         logger.error('Unspecified message type')
+
