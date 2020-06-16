@@ -14,7 +14,7 @@ def receive_group_msg(ctx: GroupMsg):
             print(baidu_content)
             action.send_group_text_msg(
                 ctx.FromGroupId,
-                os.linesep.join(baidu_content)[:100]
+                os.linesep.join(baidu_content)
             )
 
 
