@@ -15,10 +15,17 @@ def receive_group_msg(ctx: GroupMsg):
         time.sleep(random.random() * delay_time)
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
-            action.send_group_text_msg(ctx.FromGroupId, ctx.Content)
+            action.send_group_text_msg(ctx.FromGroupId, replace_wo_ye(ctx.Content))
         elif ctx.MsgType == 'PicMsg':
             pic_msg = json.loads(ctx.Content)
             for pic_content in pic_msg['GroupPic']:
                 action.send_group_pic_msg(ctx.FromGroupId, fileMd5=pic_content['FileMd5'],
                                           picBase64Buf=pic_content['ForwordBuf'])
 
+
+def replace_wo_ye(text):
+    s = list(text)
+    for i in range(len(s)):
+        if s[i] == '我':
+            s[i] = '爷'
+    return "".join(s)
