@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+import os
 import requests
 from iotbot import GroupMsg, Action
 from util import configuration
@@ -8,7 +10,12 @@ def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg' and judge_msg(ctx.Content, "百度"):
-            action.send_group_text_msg(ctx.FromGroupId, get_text(ctx.Content[3:]))
+            baidu_content = get_text(ctx.Content[3:])
+            print(baidu_content)
+            action.send_group_text_msg(
+                ctx.FromGroupId,
+                os.linesep.join(baidu_content)
+            )
 
 
 # 命令判断
