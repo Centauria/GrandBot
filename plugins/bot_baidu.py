@@ -9,6 +9,7 @@ from util import configuration
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
+        print("success")
         if ctx.MsgType == 'TextMsg' and judge_msg(ctx.Content, "百度"):
             baidu_content = get_text(ctx.Content[3:])
             print(baidu_content)
