@@ -8,6 +8,7 @@ from util import configuration
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
+        print("TESTTTTT")
         if ctx.MsgType == 'XmlMsg':
             print(ctx.Content)
             action.send_group_xml_msg(ctx.FromGroupId, ctx.Content)
