@@ -10,5 +10,7 @@ def receive_group_msg(ctx: GroupMsg):
         action = Action(configuration.qq)
         print("TESTTTTT")
         if ctx.MsgType == 'XmlMsg':
-            print(ctx.Content)
-            action.send_group_xml_msg(ctx.FromGroupId, ctx.Content)
+            content = ctx.Content[11:]
+            content = content[:content.find("[分享]真的爱你\nBEYOND")}
+            print(content)
+            action.send_group_xml_msg(ctx.FromGroupId, content)
