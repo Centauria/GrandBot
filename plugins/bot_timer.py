@@ -10,9 +10,9 @@ def receive_group_msg(ctx: GroupMsg):
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
 
-            if ctx.MsgType[:3] == "计时 ":
+            if ctx.Content[:3] == "计时 ":
                 try:
-                    command_time = ctx.MsgType.lstrip("计时")
+                    command_time = ctx.Content.lstrip("计时")
                     sleep_time = float(command_time)
                     action.send_group_text_msg(ctx.FromGroupId, "爷开始计时啦！")
                     time.sleep(sleep_time)
@@ -20,9 +20,9 @@ def receive_group_msg(ctx: GroupMsg):
                 except:
                     action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
 
-            if ctx.MsgType[:3] == "闹钟 ":
+            if ctx.Content[:3] == "闹钟 ":
                 try:
-                    command = ctx.MsgType.lstrip("闹钟 ").split(' ', 1)
+                    command = ctx.Content.lstrip("闹钟 ").split(' ', 1)
                     timeArray = time.strptime(command[1], "%Y/%m/%d %H:%M:%S")
                     timeStamp = int(time.mktime(timeArray))
                     action.send_group_text_msg(ctx.FromGroupId, "爷设好闹钟啦！")
