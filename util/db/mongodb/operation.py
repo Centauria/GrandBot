@@ -20,6 +20,7 @@ def insert_group_msg(ctx):
             content=content,
             msg_time=ctx.MsgTime,
             msg_type=ctx.MsgType,
+            msg_seq=ctx.MsgSeq,
         ))
     elif ctx.MsgType == 'PicMsg':
         content = json.loads(ctx.Content)
