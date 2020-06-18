@@ -9,13 +9,28 @@ def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
-            command = ctx.Content.split(' ')
-            print(command)
-            if command[0] == "计时" and len(command) == 2:
+
+            if ctx.MsgType[:3] == "计时 ":
                 try:
-                    sleep_time = float(command[1])
+                    command_time = ctx.MsgType.lstrip("计时")
+                    sleep_time = float(command_time)
                     action.send_group_text_msg(ctx.FromGroupId, "爷开始计时啦！")
                     time.sleep(sleep_time)
-                    action.send_group_text_msg(ctx.FromGroupId, "计时" + f"""{command[1]}""" + "s 结束！")
+                    action.send_group_text_msg(ctx.FromGroupId, "计时" + f"""{command_time}""" + "s 结束！")
+                except:
+                    action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+
+            if ctx.MsgType[:3] == "闹钟 ":
+                try:
+                    command = ctx.MsgType.lstrip("闹钟 ").split(' ', 1)
+                    timeArray = time.strptime(command[1], "%Y/%m/%d %H:%M:%S")
+                    timeStamp = int(time.mktime(timeArray))
+                    action.send_group_text_msg(ctx.FromGroupId, "爷设好闹钟啦！")
+                    sleep_time = timeStamp - int(time.time())
+                    if sleep_time <= 0:
+                        action.send_group_text_msg(ctx.FromGroupId, "设定时间有误！")
+                    else:
+                        time.sleep(sleep_time)
+                        action.send_group_text_msg(ctx.FromGroupId, "闹钟 " + f"""{command[0]}""" + " 到时间啦！")
                 except:
                     action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
