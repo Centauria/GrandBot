@@ -31,7 +31,7 @@ def insert_group_msg(ctx):
             from_user_id=ctx.FromUserId,
             from_group_name=ctx.FromGroupName,
             from_group_id=ctx.FromGroupId,
-            content=ret.inserted_id,
+            content=content,
             msg_time=ctx.MsgTime,
             msg_type=ctx.MsgType,
             msg_seq=ctx.MsgSeq,
