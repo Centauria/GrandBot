@@ -16,7 +16,7 @@ def receive_events(ctx: dict):
     if msg_revoke["msg_type"] == 'PicMsg':
         msg = "爷发现 " + msg_revoke["from_nickname"] + " 撤回了图片："
         action.send_group_text_msg(msg_revoke["from_group_id"], msg)
-        pic_msg = json.loads(msg_revoke["content"])
+        pic_msg = msg_revoke["content"]
         for pic_content in pic_msg['GroupPic']:
             action.send_group_pic_msg(msg_revoke["from_group_id"], fileMd5=pic_content['FileMd5'],
                                       picBase64Buf=pic_content['ForwordBuf'])
