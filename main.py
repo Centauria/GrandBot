@@ -35,5 +35,10 @@ def on_friend_msg(ctx: FriendMsg):
         else:
             action.send_friend_text_msg(ctx.FromUin, '不要乱发指令啊喂')
 
+@bot.on_event
+def on_event(message: dict):
+
+    print(message)
+
 
 bot.run()
