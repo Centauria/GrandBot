@@ -31,6 +31,7 @@ def receive_group_msg(ctx: GroupMsg):
                         action.send_group_text_msg(ctx.FromGroupId, "设定时间有误！")
                     else:
                         time.sleep(sleep_time)
-                        action.send_group_text_msg(ctx.FromGroupId, "闹钟 " + f"""{command[0]}""" + " 到时间啦！")
+                        msg = "@" + ctx.FromNickName + " 闹钟 " + f"""{command[0]}""" + " 到时间啦！"
+                        action.send_group_text_msg(ctx.FromGroupId, msg)
                 except:
                     action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
