@@ -6,7 +6,7 @@ from util import configuration
 
 # logging.basicConfig(level=logging.ERROR)
 
-bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir='plugins')
+bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir='plugins', log_file_path='logs/log',)
 action = Action(bot)
 
 
