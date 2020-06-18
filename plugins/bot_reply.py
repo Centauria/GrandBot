@@ -33,6 +33,7 @@ def receive_group_msg(ctx: GroupMsg):
             action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
         elif ctx.MsgType == 'PicMsg':
             pic_msg = json.loads(ctx.Content)
+            print(pic_msg)
             for pic_content in pic_msg['GroupPic']:
                 action.send_group_pic_msg(ctx.FromGroupId, fileMd5=pic_content['FileMd5'],
                                           picBase64Buf=pic_content['ForwordBuf'])
