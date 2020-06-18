@@ -29,7 +29,7 @@ def receive_group_msg(ctx: GroupMsg):
     if random.random() < p and ctx.FromUserId != configuration.qq:
         time.sleep(random.random() * delay_time)
         action = Action(configuration.qq)
-        if ctx.MsgType == 'TextMsg':
+        if ctx.MsgType == 'TextMsg' and check_is_command(ctx.Content) != True:
             action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
         elif ctx.MsgType == 'PicMsg':
             pic_msg = json.loads(ctx.Content)
@@ -38,6 +38,21 @@ def receive_group_msg(ctx: GroupMsg):
                                           picBase64Buf=pic_content['ForwordBuf'])
 
 
+# 检测是否为命令
+def check_is_command(msg):
+    if msg[0] == '.':
+        return True
+    if msg[:3] == "百度 ":
+        return True
+    if msg[:3] == "计时 ":
+        return True
+    if msg[:3] == "闹钟 ":
+        return True
+    if msg[:3] == "点歌 ":
+        return True
+
+
+# 复读替换关键词
 def replace_text_msg(msg):
     r = random.random()
     reply_set = []
