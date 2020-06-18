@@ -53,5 +53,6 @@ def insert_group_msg(ctx):
     else:
         logger.error('Unspecified message type')
 
+
 def find_group_msg_by_msgseq(msg_seq):
-    return db.group_nsg.find({"msg_seq":msg_seq})
+    return db.group_nsg.find({"msg_seq":msg_seq}).sort({"uploadTime": -1})
