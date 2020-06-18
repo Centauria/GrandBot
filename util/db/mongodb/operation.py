@@ -33,6 +33,7 @@ def insert_group_msg(ctx):
             content=ret.inserted_id,
             msg_time=ctx.MsgTime,
             msg_type=ctx.MsgType,
+            msg_seq=ctx.MsgSeq,
         ))
     elif ctx.MsgType == 'AtMsg':
         content = json.loads(ctx.Content)
@@ -45,6 +46,7 @@ def insert_group_msg(ctx):
             content=content['Content'],
             msg_time=ctx.MsgTime,
             msg_type=ctx.MsgType,
+            msg_seq=ctx.MsgSeq,
             at_id=content['UserID']
         ))
     else:
