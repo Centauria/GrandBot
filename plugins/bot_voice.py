@@ -13,7 +13,7 @@ def receive_group_msg(ctx: GroupMsg):
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')
-            if command[0] == "说话 " and len(command) >= 2:
+            if command[0] == "说话" and len(command) >= 2:
                 msg = command[1]
                 path = '../voice/' + time.strftime("%Y%m%d%H%M%S", time.localtime()) + ''.join(random.sample(string.ascii_letters + string.digits, 8)) +'.mp3'
                 volume = 1.0
@@ -38,8 +38,8 @@ def receive_group_msg(ctx: GroupMsg):
                             voice = int(voice)
                         except:
                             action.send_group_text_msg(ctx.FromGroupId, "参数:voice 有误！")
-                save(msg, path, volume, rate, voice)
-                action.send_friend_voice_msg(ctx.FromGroupId, path)
+                #save(msg, path, volume, rate, voice)
+                #action.send_friend_voice_msg(ctx.FromGroupId, path)
 
 
 
