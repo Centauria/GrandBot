@@ -3,6 +3,7 @@ import time
 import requests
 import logging
 from logging import Logger
+from requests import HTTPError
 
 trial_num = 60
 user_agent = {
@@ -51,5 +52,5 @@ def get_html(url):
         r.raise_for_status()
         r.encoding = r.apparent_encoding
         return r
-    except:
-        return "ERROR"
+    except HTTPError as e:
+        return str(e)
