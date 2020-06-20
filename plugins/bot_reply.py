@@ -29,7 +29,7 @@ def receive_group_msg(ctx: GroupMsg):
     if random.random() < p and ctx.FromUserId != configuration.qq:
         time.sleep(random.random() * delay_time)
         action = Action(configuration.qq)
-        if ctx.MsgType == 'TextMsg' and check_is_command(ctx.Content) != True:
+        if ctx.MsgType == 'TextMsg' and not check_is_command(ctx.Content):
             action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
         elif ctx.MsgType == 'PicMsg':
             pic_msg = json.loads(ctx.Content)
