@@ -38,10 +38,8 @@ def receive_group_msg(ctx: GroupMsg):
                             voice = int(voice)
                         except:
                             action.send_group_text_msg(ctx.FromGroupId, "参数:voice 有误！")
-                #save(msg, path, volume, rate, voice)
-                #action.send_friend_voice_msg(ctx.FromGroupId, path)
-
-
+                save(msg, path, volume, rate, voice)
+                action.send_friend_voice_msg(ctx.FromGroupId, path)
 
 
 def save(msg, path, volume=1.0, rate=100, voice=0):

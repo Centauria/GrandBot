@@ -75,7 +75,7 @@ def replace_text_msg(msg):
     if r <= q:
         return s
     elif reply_set == []:
-        return ""
+        return s
     else:
         n = random.randint(0, len(reply_set) - 1)
         return reply_set[n]
