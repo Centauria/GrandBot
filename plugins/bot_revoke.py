@@ -6,13 +6,14 @@ from util import configuration
 
 
 def receive_events(ctx: dict):
-    if ctx['CurrentPacket']['Data']['EventData']['UserID'] != configuration.qq and ctx['CurrentPacket']['Data']['EventName'] == 'ON_EVENT_GROUP_REVOKE':
+    if ctx['CurrentPacket']['Data']['EventData']['UserID'] != configuration.qq and \
+            ctx['CurrentPacket']['Data']['EventName'] == 'ON_EVENT_GROUP_REVOKE':
         action = Action(configuration.qq)
         msg_set = ctx['CurrentPacket']['Data']['EventData']
         msg_seq = msg_set['MsgSeq']
         msg_group_id = msg_set['GroupID']
-        msg_revoke = list(db.group_msg.find({"msg_seq": msg_seq, 'from_group_id':msg_group_id}))[0]
-        #print(msg_revoke)
+        msg_revoke = list(db.group_msg.find({"msg_seq": msg_seq, 'from_group_id': msg_group_id}))[0]
+        # print(msg_revoke)
         if msg_revoke["msg_type"] == 'TextMsg':
             msg = "爷发现 " + msg_revoke["from_nickname"] + " 撤回了消息：\n\n"
             action.send_group_text_msg(msg_revoke["from_group_id"], msg + msg_revoke["content"])
@@ -22,8 +23,8 @@ def receive_events(ctx: dict):
             pic_msg = msg_revoke["content"]
             print(pic_msg)
             for pic_content in pic_msg['GroupPic']:
-                action.send_group_pic_msg(msg_revoke["from_group_id"], fileMd5=pic_content['FileMd5'],
-                                          picBase64Buf=pic_content['ForwordBuf'])
-
-
-
+                action.send_group_pic_msg(
+                    msg_revoke["from_group_id"],
+                    fileMd5=pic_content['FileMd5'],
+                    picBase64Buf=pic_content['ForwordBuf']
+                )

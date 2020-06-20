@@ -53,7 +53,7 @@ def insert_group_msg(ctx):
 
 
 def find_group_msg_by_msgseq(msg_seq):
-    return db.group_nsg.find({"msg_seq":msg_seq}).sort({"uploadTime": -1})
+    return db.group_nsg.find({"msg_seq": msg_seq}).sort({"uploadTime": -1})
 
 
 def insert_friend_msg(ctx):
