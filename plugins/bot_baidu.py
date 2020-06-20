@@ -35,7 +35,7 @@ def receive_group_msg(ctx: GroupMsg):
                         action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
 
 
-
+# TODO: get those little `get` functions into `util` package
 # 获取html_text
 def get_html_text(url):
     kv = {

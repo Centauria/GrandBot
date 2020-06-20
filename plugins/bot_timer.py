@@ -18,8 +18,9 @@ def receive_group_msg(ctx: GroupMsg):
                     time.sleep(sleep_time)
                     action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId,
                                                content=" 计时" + f"""{command_time}""" + "s 结束！")
-                except:
-                    action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+                except Exception as e:
+                    # TODO: find what kind of exceptions can be made, then replace `Exception` with the exact kind
+                    action.send_group_text_msg(ctx.FromGroupId, f"爷发现你输入了非法参数！\n{e}")
 
             if ctx.Content[:3] == "闹钟 ":
                 try:
@@ -35,5 +36,6 @@ def receive_group_msg(ctx: GroupMsg):
                         time.sleep(sleep_time)
                         msg = " 闹钟 " + f"""{command[0]}""" + " 到时间啦！"
                         action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId, content=msg)
-                except:
-                    action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+                except Exception as e:
+                    # TODO: find what kind of exceptions can be made, then replace `Exception` with the exact kind
+                    action.send_group_text_msg(ctx.FromGroupId, f"爷发现你输入了非法参数！\n{e}")
