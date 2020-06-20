@@ -68,7 +68,6 @@ def info_get_qq(text):
 
 
 def info_image_get_qq(text):
-
     song_start = text.find("\"albumPic\"") + 12
     song_finish = text.find("\",\"", song_start)
 
@@ -76,8 +75,10 @@ def info_image_get_qq(text):
 
 
 def xml_get_qq(key, num=1):
-    info = info_get_qq(get_html("https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=0&p=" + f"""{num}""" + "&n=1&w=" + key).text)
-    info.append(info_image_get_qq(get_html("https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=8&p=1&n=1&w=" + info[3]).text))
+    info = info_get_qq(
+        get_html("https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=0&p=" + f"""{num}""" + "&n=1&w=" + key).text)
+    info.append(
+        info_image_get_qq(get_html("https://c.y.qq.com/soso/fcgi-bin/client_search_cp?t=8&p=1&n=1&w=" + info[3]).text))
     xml = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><msg templateID=\"123\" "
     xml += " url=\"https://i.y.qq.com/v8/playsong.html?platform=11&amp;songmid=" + f"""{info[2]}\" """
     xml += " serviceID=\"1\" action=\"web\" actionData=\"\" a_actionData=\"\" i_actionData=\"\" brief=\"[分享]" + f"""{info[0]}""" + "\" flag=\"0\"><item layout=\"2\"> "

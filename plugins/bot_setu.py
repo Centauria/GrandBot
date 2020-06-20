@@ -24,7 +24,7 @@ def receive_group_msg(ctx: GroupMsg):
                         name = execute + "{:0>5d}".format(no) + '.png'
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
                         print(url)
-                        action.send_group_pic_msg(ctx.FromGroupId,  picUrl=url)
+                        action.send_group_pic_msg(ctx.FromGroupId, picUrl=url)
 
 
 def receive_friend_msg(ctx: FriendMsg):
@@ -47,5 +47,3 @@ def receive_friend_msg(ctx: FriendMsg):
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
                         print(url)
                         action.send_friend_pic_msg(ctx.FromUin, picUrl=url)
-
-

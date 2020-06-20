@@ -15,25 +15,26 @@ def receive_group_msg(ctx: GroupMsg):
             command = ctx.Content.split(' ')
             if command[0] == "说话" and len(command) >= 2:
                 msg = command[1]
-                path = '../voice/' + time.strftime("%Y%m%d%H%M%S", time.localtime()) + ''.join(random.sample(string.ascii_letters + string.digits, 8)) +'.mp3'
+                path = '../voice/' + time.strftime("%Y%m%d%H%M%S", time.localtime()) + \
+                       ''.join(random.sample(string.ascii_letters + string.digits, 8)) + '.mp3'
                 volume = 1.0
                 rate = 100
                 voice = 0
                 for i in range(len(command) - 2):
-                    if command[i+2][:7] == 'volume=':
-                        volume = command[i+2].lstrip('volume=')
+                    if command[i + 2][:7] == 'volume=':
+                        volume = command[i + 2].lstrip('volume=')
                         try:
                             volume = float(volume)
                         except:
                             action.send_group_text_msg(ctx.FromGroupId, "参数:volume 有误！")
-                    elif command[i+2][:5] == 'rate=':
-                        rate = command[i+2].lstrip('rate=')
+                    elif command[i + 2][:5] == 'rate=':
+                        rate = command[i + 2].lstrip('rate=')
                         try:
                             rate = int(rate)
                         except:
                             action.send_group_text_msg(ctx.FromGroupId, "参数:rate 有误！")
-                    elif command[i+2][:6] == 'voice=':
-                        voice = command[i+2].lstrip('voice=')
+                    elif command[i + 2][:6] == 'voice=':
+                        voice = command[i + 2].lstrip('voice=')
                         try:
                             voice = int(voice)
                         except:

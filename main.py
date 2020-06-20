@@ -4,9 +4,9 @@ import logging
 
 from util import configuration
 
-# logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.ERROR)
 
-bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir='plugins', log_file_path='logs/log',)
+bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir='plugins', log_file_path='logs/log', )
 action = Action(bot)
 
 
@@ -34,7 +34,6 @@ def on_friend_msg(ctx: FriendMsg):
             action.send_friend_pic_msg(ctx.FromUin, content='', picUrl='https://t.cn/A6Am7xYO')
         else:
             action.send_friend_text_msg(ctx.FromUin, '不要乱发指令啊喂')
-
 
 
 bot.run()
