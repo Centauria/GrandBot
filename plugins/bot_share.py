@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import requests
 from iotbot import GroupMsg, Action
 from util import configuration
 
-
 # 分享内容
+from util.network.request import get_html
+
+
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
@@ -28,20 +29,6 @@ def receive_group_msg(ctx: GroupMsg):
                     content = xml_get_qq(command[1], int(command[2]))
                     print(content)
                     action.send_group_xml_msg(ctx.FromGroupId, content)
-
-
-# 获取html
-def get_html(url):
-    kv = {
-        "User-agent": "Mozilla/5.0"  # 模拟浏览器
-    }
-    try:
-        r = requests.get(url, timeout=30, headers=kv)
-        r.raise_for_status()
-        r.encoding = r.apparent_encoding
-        return r
-    except:
-        return "ERROR"
 
 
 # 获得信息 info["song_name", "singer_name", "url", "image_url"]
