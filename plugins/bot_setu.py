@@ -16,7 +16,7 @@ def receive_group_msg(ctx: GroupMsg):
                 if len(command) == 2:
                     execute = command[1]
                 else:
-                    execute = "hentai"
+                    execute = "drawings"
 
                 for c in num:
                     if c == execute:
@@ -44,7 +44,7 @@ def receive_friend_msg(ctx: FriendMsg):
                     if c == execute:
                         no = random.randint(1, num[c])
                         name = execute + "{:0>5d}".format(no) + '.png'
-                        url = "http://jinfans.top/others/iotbot/bot_setu_image/hentai/image/" + name
+                        url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
                         print(url)
                         action.send_friend_pic_msg(ctx.FromUin, picUrl=url)
 
