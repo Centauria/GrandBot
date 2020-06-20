@@ -23,6 +23,7 @@ def receive_group_msg(ctx: GroupMsg):
                         no = random.randint(1, num[c])
                         name = execute + "{:0>5d}".format(no) + '.png'
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/hentai/image/" + name
+                        print(url)
                         action.send_group_pic_msg(ctx.FromGroupId,  picUrl=url)
 
 
@@ -44,6 +45,7 @@ def receive_friend_msg(ctx: FriendMsg):
                         no = random.randint(1, num[c])
                         name = execute + "{:0>5d}".format(no) + '.png'
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/hentai/image/" + name
+                        print(url)
                         action.send_group_pic_msg(ctx.FromUin, picUrl=url)
 
 
