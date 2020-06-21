@@ -68,5 +68,13 @@ def get_html_text(url):
 
 
 def get_html_url(url):
-    r = get_html(url)
-    return r.headers['Location'] if r else None
+    kv = {
+        "User-agent": user_agent['Edge']
+    }
+    r = None
+    try:
+        r = requests.head(url, timeout=30, headers=kv)
+        return r.headers['Location']
+    except HTTPError as e:
+        logger.error(e)
+    return r
