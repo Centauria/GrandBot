@@ -2,10 +2,10 @@
 from iotbot import GroupMsg, Action
 from util import configuration
 
-# 输入 “百度 关键字”，回显百科内容
 from util.network.request import get_html_url, get_html_text
 
 
+# 输入 “百度 关键字”，回显百科内容
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
@@ -64,14 +64,6 @@ def get_text(key):
         text[i] = text[i].replace("&nbsp;", '')
         text[i] = text[i].replace("\n", '')
 
-    text2 = text[:]
-
-    for str in text2:
-        if str == '':
-            text.remove('')
-
-    string = ""
-    for i in range(len(text)):
-        string = string + text[i] + "\n\n"
+    string = '\n\n'.join(text)
 
     return string
