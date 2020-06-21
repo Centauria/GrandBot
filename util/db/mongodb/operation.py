@@ -13,8 +13,8 @@ def find_group_msg_by_msg_seq(msg_seq):
     return db.group_msg.find({"msg_seq": msg_seq}).sort({"msg_time": -1}).limit(1)
 
 
-def find_group_msg_by_pic_content(msg_seq):
-    return db.group_msg.find({"msg_seq": msg_seq}).sort({"msg_time": -1}).limit(1)
+def find_group_msg_by_pic_content(msg_content):
+    return db.group_msg.find({"msg_type": "PicMsg", "content.Content": msg_content}).sort({"msg_time": -1}).limit(1)
 
 
 def insert_group_msg(ctx: GroupMsg):
