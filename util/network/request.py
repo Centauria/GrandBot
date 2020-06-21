@@ -39,7 +39,7 @@ def get_img(url: str):
             logger.info(f'Get url: {url}')
             logger.info(f'Trial {i}')
             r = requests.get(url, headers=headers_img, timeout=2)
-        except Exception as e:
+        except HTTPError as e:
             logger.error(f'Trial {i} failed.')
             time.sleep(1)
         finally:
@@ -52,10 +52,21 @@ def get_html(url):
     kv = {
         "User-agent": user_agent['Mac']  # 模拟浏览器
     }
+    r = None
     try:
         r = requests.get(url, timeout=30, headers=kv)
         r.raise_for_status()
         r.encoding = r.apparent_encoding
-        return r
     except HTTPError as e:
-        return str(e)
+        logger.error(e)
+    return r
+
+
+def get_html_text(url):
+    r = get_html(url)
+    return r.text if r else None
+
+
+def get_html_url(url):
+    r = get_html(url)
+    return r.headers['Location'] if r else None
