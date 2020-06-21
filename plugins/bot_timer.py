@@ -3,39 +3,66 @@ import time
 from iotbot import GroupMsg, Action
 from util import configuration
 
+time_words = {'minutes': 60, 'hours': 3600, 'days': 24 * 3600, 's': 1, '秒': 1, 'm': 60, 'min': 60, 'minute': 60,
+			  '分': 60, '分钟': 60, 'h': 3600, 'hour': 3600, '小时': 3600, 'd': 24 * 3600, 'day': 24 * 3600, '天': 24 * 3600}
+alarm_words = {"%Y/%m/%d %H:%M:%S": 0, "%Y-%m-%d %H:%M:%S": 0, "%Y%m%d%H%M%S": 0, "%H:%M:%S": "%Y/%m/%d %H:%M:%S"}
+
+
+def time_shift(time_str):
+	try:
+		for key in time_words:
+			length = len(key)
+			if time_str[-length:] == key:
+				return time_words[key] * float(time_str.rstrip(key))
+	except Exception as e:
+		return False
+
+
+def alarm_shift(time_str):
+	for key in alarm_words:
+		try:
+			if alarm_words[key] == 0:
+				return time.strptime(time_str, key)
+			else:
+				date = time.strftime("%Y/%m/%d ", time.localtime())
+				return time.strptime(date + time_str, alarm_words[key])
+		except Exception as e:
+			continue
+	return False
+
 
 # 计时器功能
 def receive_group_msg(ctx: GroupMsg):
-    if ctx.FromUserId != configuration.qq:
-        action = Action(configuration.qq)
-        if ctx.MsgType == 'TextMsg':
+	if ctx.FromUserId != configuration.qq:
+		action = Action(configuration.qq)
+		if ctx.MsgType == 'TextMsg':
 
-            if ctx.Content[:3] == "计时 ":
-                try:
-                    command_time = ctx.Content.lstrip("计时")
-                    sleep_time = float(command_time)
-                    action.send_group_text_msg(ctx.FromGroupId, "爷开始计时啦！")
-                    time.sleep(sleep_time)
-                    action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId,
-                                               content=" 计时" + f"""{command_time}""" + "s 结束！")
-                except Exception as e:
-                    # TODO: find what kind of exceptions can be made, then replace `Exception` with the exact kind
-                    action.send_group_text_msg(ctx.FromGroupId, f"爷发现你输入了非法参数！\n{e}")
+			if ctx.Content[:3] == "计时 ":
+				command_time = ctx.Content.lstrip("计时 ")
+				if time_shift(command_time):
+					sleep_time = time_shift(command_time)
+					if sleep_time > 4294967:
+						action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数：\n设置时间过长！")
+					elif sleep_time < 0:
+						action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数：\n设置时间为负！")
+					else:
+						action.send_group_text_msg(ctx.FromGroupId, "爷开始计时啦！")
+						time.sleep(sleep_time)
+						action.send_group_text_msg(ctx.FromGroupId, "计时 " + command_time + " 结束！")
+				else:
+					action.send_group_text_msg(ctx.FromGroupId, "请输入数字！")
 
-            if ctx.Content[:3] == "闹钟 ":
-                try:
-                    command = ctx.Content.lstrip("闹钟 ").split(' ', 1)
-                    timeArray = time.strptime(command[1], "%Y/%m/%d %H:%M:%S")
-                    timeStamp = int(time.mktime(timeArray))
-                    sleep_time = timeStamp - int(time.time())
-                    print(sleep_time)
-                    if sleep_time <= 0:
-                        action.send_group_text_msg(ctx.FromGroupId, "设定时间已过！")
-                    else:
-                        action.send_group_text_msg(ctx.FromGroupId, "爷设好闹钟啦！")
-                        time.sleep(sleep_time)
-                        msg = " 闹钟 " + f"""{command[0]}""" + " 到时间啦！"
-                        action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId, content=msg)
-                except Exception as e:
-                    # TODO: find what kind of exceptions can be made, then replace `Exception` with the exact kind
-                    action.send_group_text_msg(ctx.FromGroupId, f"爷发现你输入了非法参数！\n{e}")
+			if ctx.Content[:3] == "闹钟 ":
+				command = ctx.Content.lstrip("闹钟 ").split(' ', 1)
+				time_array = alarm_shift(command[1])
+				time_stamp = int(time.mktime(time_array))
+				sleep_time = time_stamp - int(time.time())
+				print(sleep_time)
+				if sleep_time <= 0:
+					action.send_group_text_msg(ctx.FromGroupId, "设定时间已过！")
+				else:
+					action.send_group_text_msg(ctx.FromGroupId, "爷设好闹钟啦！")
+					time.sleep(sleep_time)
+					msg = " 闹钟 " + f"""{command[0]}""" + " 到时间啦！"
+					action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId, content=msg)
+
