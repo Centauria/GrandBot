@@ -11,7 +11,6 @@ def receive_group_msg(ctx: GroupMsg):
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')
-            print(command)
             if command[0] == "歌":
                 # TODO: get these long xml into `res/xml` folder
                 content = "\u003c?xml version='1.0' encoding='UTF-8' standalone='yes'?\u003e\u003cmsg templateID=\"123\" url=\"https://i.y.qq.com/v8/playsong.html?platform=11\u0026amp;appshare=android_qq\u0026amp;appversion=9160007\u0026amp;hosteuin=oKSioe6k7e-kNn**\u0026amp;songmid=000hqNCg4BrAPC\u0026amp;type=0\u0026amp;appsongtype=1\u0026amp;_wv=1\u0026amp;source=qq\u0026amp;ADTAG=qfshare\" serviceID=\"1\" action=\"\" actionData=\"\" a_actionData=\"\" i_actionData=\"\" brief=\"[分享]真的爱你\" flag=\"0\"\u003e\u003citem layout=\"2\"\u003e\u003cpicture cover=\"http://y.gtimg.cn/music/photo_new/T002R150x150M000003DrnLc0xJRE5_1.jpg\"/\u003e\u003ctitle\u003e真的爱你\u003c/title\u003e\u003csummary\u003eBEYOND\u003c/summary\u003e\u003c/item\u003e\u003csource url=\"\" icon=\"\" name=\"QQ音乐\" appid=\"100497308\" action=\"\" actionData=\"\" a_actionData=\"tencent100497308://\" i_actionData=\"\"/\u003e\u003c/msg\u003e"
