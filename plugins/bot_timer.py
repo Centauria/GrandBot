@@ -48,7 +48,7 @@ def receive_group_msg(ctx: GroupMsg):
 					else:
 						action.send_group_text_msg(ctx.FromGroupId, "爷开始计时啦！")
 						time.sleep(sleep_time)
-						msg = "计时 " + command_time + " 结束！"
+						msg = " 计时 " + command_time + " 结束！"
 						action.send_group_text_msg(ctx.FromGroupId, atUser=ctx.FromUserId, content=msg)
 				else:
 					action.send_group_text_msg(ctx.FromGroupId, "非法时间格式！")

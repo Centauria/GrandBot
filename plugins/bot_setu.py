@@ -4,9 +4,11 @@ from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 
 
+num = {"hentai": 4461, "drawings": 15566}
+
+
 # setu!
 def receive_group_msg(ctx: GroupMsg):
-    num = {"hentai": 4461, "drawings": 15566}
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
@@ -24,11 +26,10 @@ def receive_group_msg(ctx: GroupMsg):
                         name = execute + "{:0>5d}".format(no) + '.png'
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
                         print(url)
-                        action.send_group_pic_msg(ctx.FromGroupId, picUrl=url)
+                        action.send_group_pic_msg(ctx.FromGroupId, content=execute + "{:0>5d}".format(no), picUrl=url)
 
 
 def receive_friend_msg(ctx: FriendMsg):
-    num = {"hentai": 4461, "drawings": 15566}
     if ctx.FromUin != configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
@@ -46,4 +47,4 @@ def receive_friend_msg(ctx: FriendMsg):
                         name = execute + "{:0>5d}".format(no) + '.png'
                         url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
                         print(url)
-                        action.send_friend_pic_msg(ctx.FromUin, picUrl=url)
+                        action.send_friend_pic_msg(ctx.FromUin, content=execute + "{:0>5d}".format(no), picUrl=url)
