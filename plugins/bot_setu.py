@@ -3,7 +3,7 @@ import random
 from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 
-
+# TODO: get number by jinfans.top
 num = {"hentai": 4461, "drawings": 15566}
 
 

@@ -6,8 +6,8 @@ import random
 from iotbot import GroupMsg, Action
 from util import configuration
 
-
-# 输入 “百度 关键字”，回显百科内容
+# TODO: it can't work on linux
+# 输入文字，以语音形式发送
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
         action = Action(configuration.qq)

@@ -5,6 +5,7 @@ import time
 import util.db.mongodb.operation as op
 from util import configuration
 
+# TODO: get number by jinfans.top
 num = {"hentai": 4461, "drawings": 15566}
 
 
