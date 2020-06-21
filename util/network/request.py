@@ -10,7 +10,12 @@ user_agent = {
     'Mac': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) '
            'Chrome/83.0.4103.61 Safari/537.36',
     'Rpi': 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/78.0.3904.108 '
-           'Chrome/78.0.3904.108 Safari/537.36'
+           'Chrome/78.0.3904.108 Safari/537.36',
+    'Firefox': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
+    'Edge': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362',
+    'Chrome': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+              'Chrome/80.0.3987.106 Safari/537.36'
 }
 headers_img = {
     'Host': 'gchat.qpic.cn',
