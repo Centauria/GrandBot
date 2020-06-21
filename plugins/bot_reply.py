@@ -8,8 +8,8 @@ from util import configuration
 
 from util.db.mongodb.operation import db
 
-p = 0.5
-q = 0.25
+p = 0.08
+q = 0.08
 delay_time = 1.5
 
 
@@ -74,7 +74,7 @@ def replace_text_msg(msg):
 
     if r <= q:
         return s
-    elif reply_set == []:
+    elif not reply_set:
         return s
     else:
         n = random.randint(0, len(reply_set) - 1)
