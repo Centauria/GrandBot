@@ -2,7 +2,7 @@
 from iotbot import GroupMsg, Action
 from util import configuration
 
-from util.network.request import get_html_url, get_html_text
+from util.network.request import get_html_url, get_html
 
 
 # 输入 “百度 关键字”，回显百科内容
@@ -49,7 +49,8 @@ def remove_between(text, f1, f2):
 # 获得说明
 def get_text(key):
     url = "https://baike.baidu.com/search/word?word=" + key
-    s = get_html_text(url)
+    html = get_html(url)
+    s = html.text
 
     start = s.find("<div class=\"lemma-summary\" label-module=\"lemmaSummary\">")
     finish = s.find("<div class=\"lemmaWgt-promotion-leadPVBtn\">")
