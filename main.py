@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
-from iotbot import IOTBOT, Action, GroupMsg, FriendMsg
+import os
 import logging
+import argparse
+from iotbot import IOTBOT, Action, GroupMsg, FriendMsg
 
 from util import configuration
 
-logging.basicConfig(level=logging.ERROR)
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--verbose', action='store_true', help='Print loglevel=INFO')
+parser.add_argument('--plugin-dir', default='plugins', help='Plugin directory')
+parser.add_argument('--log-path', default=os.path.sep.join(('logs', 'log.txt')), help='Path to log file')
+args = parser.parse_args()
 
-bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir='plugins', log_file_path='logs/log', )
+if args.verbose:
+    logging.basicConfig(level=logging.INFO)
+else:
+    logging.basicConfig(level=logging.ERROR)
+
+bot = IOTBOT(configuration.qq, use_plugins=True, plugin_dir=args.plugin_dir, log_file_path=args.log_path)
 action = Action(bot)
 
 
