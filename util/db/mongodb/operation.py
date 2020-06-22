@@ -9,8 +9,17 @@ from .connection import db
 logger = logging.Logger('MongoDB')
 
 
-def find_group_msg_by_msg_seq(msg_seq):
-    return db.group_msg.find({"msg_seq": msg_seq}).sort({"msg_time": -1}).limit(1)
+def find_group_msg_by_msg_seq(msg_seq, from_group_id=None):
+    if from_group_id is None:
+        res = db.group_msg.find({
+            "msg_seq": msg_seq
+        })
+    else:
+        res = db.group_msg.find({
+            "msg_seq": msg_seq,
+            'from_group_id': from_group_id
+        })
+    return res.next()
 
 
 def find_group_msg_by_pic_content(msg_content):
