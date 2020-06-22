@@ -13,9 +13,7 @@ def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId == configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'PicMsg':
-            pic_msg = json.loads(ctx.Content)
-            content = pic_msg["Content"]
             for key in num:
-                if content.find(key) != -1:
+                if ctx.Content.find(key) != -1:
                     time.sleep(15)
                     action.revoke_msg(ctx.FromGroupId, ctx.MsgSeq, ctx.MsgRandom)
