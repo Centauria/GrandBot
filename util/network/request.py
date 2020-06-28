@@ -78,3 +78,15 @@ def get_html_url(url):
     except HTTPError as e:
         logger.error(e)
     return r
+
+
+def post(url, data):
+    kv = {
+        "User-agent": user_agent['Mac']  # 模拟浏览器
+    }
+    r = None
+    try:
+        r = requests.post(url, timeout=30, headers=kv, data=data)
+    except HTTPError as e:
+        logger.error(e)
+    return r
