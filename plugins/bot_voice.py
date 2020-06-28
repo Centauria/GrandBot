@@ -6,6 +6,7 @@ import random
 from iotbot import GroupMsg, Action
 from util import configuration
 
+
 # TODO: it can't work on linux
 # 输入文字，以语音形式发送
 def receive_group_msg(ctx: GroupMsg):

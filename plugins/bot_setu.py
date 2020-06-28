@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-import random
 from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
-
-# TODO: get number by jinfans.top
-num = {"hentai": 4461, "drawings": 15566}
 
 
 # setu!
@@ -20,13 +16,8 @@ def receive_group_msg(ctx: GroupMsg):
                 else:
                     execute = "drawings"
 
-                for c in num:
-                    if c == execute:
-                        no = random.randint(1, num[c])
-                        name = execute + "{:0>5d}".format(no) + '.png'
-                        url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
-                        print(url)
-                        action.send_group_pic_msg(ctx.FromGroupId, content=execute + "{:0>5d}".format(no), picUrl=url)
+                url = "http://jinfans.top/setu/latest/view/random?type=" + execute
+                action.send_group_pic_msg(ctx.FromGroupId, execute, picUrl=url)
 
 
 def receive_friend_msg(ctx: FriendMsg):
@@ -41,10 +32,5 @@ def receive_friend_msg(ctx: FriendMsg):
                 else:
                     execute = "hentai"
 
-                for c in num:
-                    if c == execute:
-                        no = random.randint(1, num[c])
-                        name = execute + "{:0>5d}".format(no) + '.png'
-                        url = "http://jinfans.top/others/iotbot/bot_setu_image/" + execute + "/image/" + name
-                        print(url)
-                        action.send_friend_pic_msg(ctx.FromUin, content=execute + "{:0>5d}".format(no), picUrl=url)
+                url = "http://jinfans.top/setu/latest/view/random?type=" + execute
+                action.send_friend_pic_msg(ctx.FromUin, execute, picUrl=url)
