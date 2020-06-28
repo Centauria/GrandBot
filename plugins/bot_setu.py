@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
+from util.network.request import get_html_text
+import json
 
 
 # setu!
@@ -16,8 +18,11 @@ def receive_group_msg(ctx: GroupMsg):
                 else:
                     execute = "drawings"
 
-                url = "http://jinfans.top/setu/latest/view/random?type=" + execute
-                action.send_group_pic_msg(ctx.FromGroupId, execute, picUrl=url)
+                id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
+                id_image = get_html_text(id_url)
+                id_json = json.loads(id_image)
+                url = "http://jinfans.top/setu/latest/view/direct/" + id_json["_id"]
+                action.send_group_pic_msg(ctx.FromGroupId, content=execute, picUrl=url)
 
 
 def receive_friend_msg(ctx: FriendMsg):
@@ -32,5 +37,8 @@ def receive_friend_msg(ctx: FriendMsg):
                 else:
                     execute = "hentai"
 
-                url = "http://jinfans.top/setu/latest/view/random?type=" + execute
-                action.send_friend_pic_msg(ctx.FromUin, execute, picUrl=url)
+                id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
+                id_image = get_html_text(id_url)
+                id_json = json.loads(id_image)
+                url = "http://jinfans.top/setu/latest/view/direct/" + id_json["_id"]
+                action.send_friend_pic_msg(ctx.FromUin, content=execute, picUrl=url)
