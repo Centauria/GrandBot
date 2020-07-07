@@ -32,6 +32,7 @@ def receive_friend_msg(ctx: FriendMsg):
     if ctx.MsgType == 'TextMsg':
 
         command = ctx.Content.split(' ', 1)
+        print(command)
         if command[0] == "latex" and len(command) > 1:
             latex_content = command[1]
             url = 'https://quicklatex.com/latex3.f'
