@@ -11,5 +11,5 @@ def receive_group_msg(ctx: GroupMsg):
 		if ctx.MsgType == 'TextMsg':
 
 			if ctx.Content[:5] == "echo ":
-				command_test = ctx.Content.lstrip("echo ")
+				command_test = ctx.Content[5:]
 				action.send_group_text_msg(ctx.FromGroupId, content=command_test)
