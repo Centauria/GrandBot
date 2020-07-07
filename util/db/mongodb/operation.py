@@ -10,6 +10,13 @@ from .connection import db
 logger = logging.Logger('MongoDB')
 
 
+def find_img_by_id(id):
+    res = db.img.find_one({
+        "_id": id
+    })
+    return res
+
+
 def find_group_msg_by_msg_seq(msg_seq, from_group_id=None):
     if from_group_id is None:
         res = db.group_msg.find({
@@ -21,10 +28,6 @@ def find_group_msg_by_msg_seq(msg_seq, from_group_id=None):
             'from_group_id': from_group_id
         })
     return res.next()
-
-
-def find_group_msg_by_pic_content(msg_content):
-    return db.group_msg.find({"msg_type": "PicMsg", "content.Content": msg_content}).sort({"msg_time": -1}).limit(1)
 
 
 def insert_group_msg(ctx: GroupMsg):
