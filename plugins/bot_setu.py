@@ -3,11 +3,18 @@ from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 from util.network.request import get_html_text
 import json
+from util.plugins.control import PluginControl
 
 
 # setu!
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
+
+        # check
+        plugin = PluginControl()
+        if not plugin.check("setu", ctx.FromGroupId):
+            return
+
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')

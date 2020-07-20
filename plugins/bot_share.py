@@ -4,14 +4,22 @@ from util import configuration
 
 # 分享内容
 from util.network.request import get_html
+from util.plugins.control import PluginControl
 
 
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
+
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')
             if command[0] == "点歌":
+
+                # check
+                plugin = PluginControl()
+                if not plugin.check("分享", ctx.FromGroupId):
+                    return
+
                 if len(command) == 2:
                     content = xml_get_qq(command[1])
                     print(content)

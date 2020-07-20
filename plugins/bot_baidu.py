@@ -3,11 +3,18 @@ from iotbot import GroupMsg, Action
 from util import configuration
 
 from util.network.request import get_html_url, get_html
+from util.plugins.control import PluginControl
 
 
 # 输入 “百度 关键字”，回显百科内容
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
+
+        # check
+        plugin = PluginControl()
+        if not plugin.check("百度", ctx.FromGroupId):
+            return
+
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
 

@@ -3,11 +3,18 @@ import logging
 from iotbot import Action
 from util.db.mongodb.operation import db, find_group_msg_by_msg_seq, find_img_by_id
 from util import configuration
+from util.plugins.control import PluginControl
 
 logger = logging.Logger('bot_revoke')
 
 
 def receive_events(ctx: dict):
+
+    # check
+    plugin = PluginControl()
+    if not plugin.check("防撤回", ctx['CurrentPacket']['Data']['EventData']['GroupID']):
+        return
+
     if ctx['CurrentPacket']['Data']['EventData']['UserID'] != configuration.qq and \
             ctx['CurrentPacket']['Data']['EventName'] == 'ON_EVENT_GROUP_REVOKE':
         action = Action(configuration.qq)

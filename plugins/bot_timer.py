@@ -2,6 +2,7 @@
 import time
 from iotbot import GroupMsg, Action
 from util import configuration
+from util.plugins.control import PluginControl
 
 time_words = {'minutes': 60, 'hours': 3600, 'days': 24 * 3600, 's': 1, '秒': 1, 'm': 60, 'min': 60, 'minute': 60,
 			  '分': 60, '分钟': 60, 'h': 3600, 'hour': 3600, '小时': 3600, 'd': 24 * 3600, 'day': 24 * 3600, '天': 24 * 3600}
@@ -34,10 +35,17 @@ def alarm_shift(time_str):
 # 计时器功能
 def receive_group_msg(ctx: GroupMsg):
 	if ctx.FromUserId != configuration.qq:
+
 		action = Action(configuration.qq)
 		if ctx.MsgType == 'TextMsg':
 
 			if ctx.Content[:3] == "计时 ":
+
+				# check
+				plugin = PluginControl()
+				if not plugin.check("计时", ctx.FromGroupId):
+					return
+
 				command_time = ctx.Content.lstrip("计时 ")
 				if time_shift(command_time):
 					sleep_time = time_shift(command_time)
@@ -54,6 +62,12 @@ def receive_group_msg(ctx: GroupMsg):
 					action.send_group_text_msg(ctx.FromGroupId, "非法时间格式！")
 
 			if ctx.Content[:3] == "闹钟 ":
+
+				# check
+				plugin = PluginControl()
+				if not plugin.check("闹钟", ctx.FromGroupId):
+					return
+
 				command = ctx.Content.lstrip("闹钟 ").split(' ', 1)
 				time_array = alarm_shift(command[1])
 				if time_array:

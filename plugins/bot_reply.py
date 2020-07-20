@@ -7,6 +7,7 @@ from iotbot import GroupMsg, Action
 from util import configuration
 
 from util.db.mongodb.operation import db
+from util.plugins.control import PluginControl
 
 p = 0.08
 q = 0.08
@@ -26,99 +27,90 @@ delay_time = 1.5
 
 
 def receive_group_msg(ctx: GroupMsg):
-    if random.random() < p and ctx.FromUserId != configuration.qq:
-        time.sleep(random.random() * delay_time)
-        action = Action(configuration.qq)
-        if ctx.MsgType == 'TextMsg' and not check_is_command(ctx.Content):
-            action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
-        elif ctx.MsgType == 'PicMsg':
-            pic_msg = json.loads(ctx.Content)
-            for pic_content in pic_msg['GroupPic']:
-                action.send_group_pic_msg(ctx.FromGroupId, fileMd5=pic_content['FileMd5'],
-                                          picBase64Buf=pic_content['ForwordBuf'])
+	# check
+	plugin = PluginControl()
+	if not plugin.check("reply", ctx.FromGroupId):
+		return
 
-
-# 检测是否为命令
-def check_is_command(msg):
-    if msg[0] == '.':
-        return True
-    if msg[:3] == "百度 ":
-        return True
-    if msg[:3] == "计时 ":
-        return True
-    if msg[:3] == "闹钟 ":
-        return True
-    if msg[:3] == "点歌 ":
-        return True
+	if random.random() < p and ctx.FromUserId != configuration.qq:
+		time.sleep(random.random() * delay_time)
+		action = Action(configuration.qq)
+		if ctx.MsgType == 'TextMsg' and not plugin.is_command(ctx.Content.split(' ', 1)[0], ctx.FromGroupId):
+			action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
+		elif ctx.MsgType == 'PicMsg':
+			pic_msg = json.loads(ctx.Content)
+			for pic_content in pic_msg['GroupPic']:
+				action.send_group_pic_msg(ctx.FromGroupId, fileMd5=pic_content['FileMd5'],
+										  picBase64Buf=pic_content['ForwordBuf'])
 
 
 # 复读替换关键词
 def replace_text_msg(msg):
-    r = random.random()
-    reply_set = []
-    s = msg
-    for x in db.group_msg_reply.find():
+	r = random.random()
+	reply_set = []
+	s = msg
+	for x in db.group_msg_reply.find():
 
-        type = x["type"]
-        key = x["key"]
-        reply = x["reply"]
-        if type != 0:
-            pos = int(x["pos"])
+		type = x["type"]
+		key = x["key"]
+		reply = x["reply"]
+		if type != 0:
+			pos = int(x["pos"])
 
-        if msg == key and type == 0:  # type = 0
-            return reply
-        elif r > q and type == 1 and judge_pos(msg, key, pos):  # type = 1
-            reply_set.append(reply)
-        elif r <= q and type == 2:  # type = 2
-            s = replace_pos(s, key, reply, pos)
+		if msg == key and type == 0:  # type = 0
+			return reply
+		elif r > q and type == 1 and judge_pos(msg, key, pos):  # type = 1
+			reply_set.append(reply)
+		elif r <= q and type == 2:  # type = 2
+			s = replace_pos(s, key, reply, pos)
 
-    if r <= q:
-        return s
-    elif not reply_set:
-        return s
-    else:
-        n = random.randint(0, len(reply_set) - 1)
-        return reply_set[n]
+	if r <= q:
+		return s
+	elif not reply_set:
+		return s
+	else:
+		n = random.randint(0, len(reply_set) - 1)
+		return reply_set[n]
 
 
 # 判断key是否以pos要求的形式存在于msg中
 def judge_pos(msg, key, pos):
-    if pos == -2:
-        if msg.find(key) != -1:
-            return True
-    elif pos == -1:
-        for i in range(len(key)):
-            if msg[-i - 1] != key[-i - 1]:
-                return False
-        return True
-    else:
-        # 检验是否相同
-        for i in range(len(key)):
-            if msg[pos + i] != key[i]:
-                return False
-        return True
+	if pos == -2:
+		if msg.find(key) != -1:
+			return True
+	elif pos == -1:
+		for i in range(len(key)):
+			if msg[-i - 1] != key[-i - 1]:
+				return False
+		return True
+	else:
+		# 检验是否相同
+		for i in range(len(key)):
+			if msg[pos + i] != key[i]:
+				return False
+		return True
 
 
 # 以pos要求的形式替换msg中的key
 def replace_pos(msg, key, reply, pos):
-    if pos == -2:
-        return msg.replace(key, reply)
-    elif pos == -1:
-        # 检验是否相同
-        for i in range(len(key)):
-            if msg[-i - 1] != key[-i - 1]:
-                return msg
-        # 替换
-        s = msg[0:len(msg) - len(key)]
-        s = s + reply
-        return s
-    else:
-        # 检验是否相同
-        for i in range(len(key)):
-            if msg[pos + i] != key[i]:
-                return msg
-        # 替换
-        s = msg[0:pos]
-        s = s + reply
-        s = s + msg[pos + len(key):]
-        return s
+	if pos == -2:
+		return msg.replace(key, reply)
+	elif pos == -1:
+		# 检验是否相同
+		for i in range(len(key)):
+			if msg[-i - 1] != key[-i - 1]:
+				return msg
+		# 替换
+		s = msg[0:len(msg) - len(key)]
+		s = s + reply
+		return s
+	else:
+		# 检验是否相同
+		for i in range(len(key)):
+			if msg[pos + i] != key[i]:
+				return msg
+		# 替换
+		s = msg[0:pos]
+		s = s + reply
+		s = s + msg[pos + len(key):]
+		return s

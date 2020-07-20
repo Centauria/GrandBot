@@ -2,11 +2,18 @@
 import time
 from iotbot import GroupMsg, Action
 from util import configuration
+from util.plugins.control import PluginControl
 
 
 # echo功能
 def receive_group_msg(ctx: GroupMsg):
 	if ctx.FromUserId != configuration.qq:
+
+		# check
+		plugin = PluginControl()
+		if not plugin.check("echo", ctx.FromGroupId):
+			return
+
 		action = Action(configuration.qq)
 		if ctx.MsgType == 'TextMsg':
 

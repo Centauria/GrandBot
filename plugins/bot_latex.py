@@ -3,11 +3,18 @@ from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 import re
 from util.network.request import post
+from util.plugins.control import PluginControl
 
 
 # 输入 “latex 关键字”，回显公式图片
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
+
+        # check
+        plugin = PluginControl()
+        if not plugin.check("latex", ctx.FromGroupId):
+            return
+
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
 

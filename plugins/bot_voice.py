@@ -5,12 +5,19 @@ import string
 import random
 from iotbot import GroupMsg, Action
 from util import configuration
+from util.plugins.control import PluginControl
 
 
 # TODO: it can't work on linux
 # 输入文字，以语音形式发送
 def receive_group_msg(ctx: GroupMsg):
     if ctx.FromUserId != configuration.qq:
+
+        # check
+        plugin = PluginControl()
+        if not plugin.check("voice", ctx.FromGroupId):
+            return
+
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')
