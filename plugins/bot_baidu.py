@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from iotbot import GroupMsg, Action
+from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 
 from util.network.request import get_html_url, get_html
@@ -40,6 +40,36 @@ def receive_group_msg(ctx: GroupMsg):
                             action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
                     else:
                         action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
+
+
+def receive_friens_msg(ctx: FriendMsg):
+
+    action = Action(configuration.qq)
+    if ctx.MsgType == 'TextMsg':
+
+        command = ctx.Content.split(' ')
+        if command[0] == "百度" and len(command) > 1:
+            baidu_content = get_text(command[1])
+            url_new = "https:" + get_html_url("https://baike.baidu.com/search/word?word=" + command[1])
+            print("内容", baidu_content, baidu_content == "")
+
+            if baidu_content == "":
+                action.send_friend_text_msg(ctx.FromUin, "爷没有搜索到结果！")
+            else:
+                if len(command) == 2:
+                    action.send_friend_text_msg(ctx.FromUin, baidu_content[:] + url_new)
+                elif len(command) == 3:
+                    try:
+                        i = int(command[2])
+                    except:
+                        action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数！")
+                    if i > 0:
+                        action.send_friend_text_msg(ctx.FromUin, baidu_content[:i] + "......\n\n" + url_new)
+                    else:
+                        action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数！")
+                else:
+                    action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数！")
+
 
 
 # 去除两个符号中间的所有内容

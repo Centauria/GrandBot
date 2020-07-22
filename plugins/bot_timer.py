@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
-from iotbot import GroupMsg, Action
+from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 from util.plugins.control import PluginControl
 
@@ -45,7 +45,6 @@ def receive_group_msg(ctx: GroupMsg):
 				plugin = PluginControl()
 				if not plugin.check("计时", ctx.FromGroupId):
 					return
-
 				command_time = ctx.Content.lstrip("计时 ")
 				if time_shift(command_time):
 					sleep_time = time_shift(command_time)
@@ -85,3 +84,41 @@ def receive_group_msg(ctx: GroupMsg):
 					action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数：\n非法时间格式！")
 
 
+def receive_friend_msg(ctx: FriendMsg):
+	action = Action(configuration.qq)
+	if ctx.MsgType == 'TextMsg':
+
+		if ctx.Content[:3] == "计时 ":
+
+			command_time = ctx.Content.lstrip("计时 ")
+			if time_shift(command_time):
+				sleep_time = time_shift(command_time)
+				if sleep_time > 4294967:
+					action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数：\n设置时间过长！")
+				elif sleep_time < 0:
+					action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数：\n设置时间为负！")
+				else:
+					action.send_friend_text_msg(ctx.FromUin, "爷开始计时啦！")
+					time.sleep(sleep_time)
+					msg = " 计时 " + command_time + " 结束！"
+					action.send_friend_text_msg(ctx.FromUin, content=msg)
+			else:
+				action.send_friend_text_msg(ctx.FromUin, "非法时间格式！")
+
+		if ctx.Content[:3] == "闹钟 ":
+
+			command = ctx.Content.lstrip("闹钟 ").split(' ', 1)
+			time_array = alarm_shift(command[1])
+			if time_array:
+				time_stamp = int(time.mktime(time_array))
+				sleep_time = time_stamp - int(time.time())
+				print(sleep_time)
+				if sleep_time <= 0:
+					action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数：\n设定时间已过！")
+				else:
+					action.send_friend_text_msg(ctx.FromUin, "爷设好闹钟啦！")
+					time.sleep(sleep_time)
+					msg = " 闹钟 " + f"""{command[0]}""" + " 到时间啦！"
+					action.send_friend_text_msg(ctx.FromUin, content=msg)
+			else:
+				action.send_friend_text_msg(ctx.FromUin, "爷发现你输入了非法参数：\n非法时间格式！")

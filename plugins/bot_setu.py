@@ -42,7 +42,7 @@ def receive_friend_msg(ctx: FriendMsg):
                 if len(command) == 2:
                     execute = command[1]
                 else:
-                    execute = "hentai"
+                    execute = "drawings"
 
                 id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
                 id_image = get_html_text(id_url)
