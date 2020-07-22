@@ -42,6 +42,32 @@ class PluginControl(object):
 		else:
 			return "插件 : " + plugin + " 关闭失败"
 
+	def add_all(self, fromGroupId):
+		add_false = []
+
+		for plugin in self.keywords:
+
+			if not op.count_group_plugins(plugin, fromGroupId):
+				result = op.insert_group_plugins(plugin, fromGroupId)
+				if result.inserted_id:
+					print(f"plugin:{plugin} in Group Id : {fromGroupId} has been opened!")
+				else:
+					add_false.append(plugin)
+
+		return add_false
+
+	def delete_all(self, fromGroupId):
+		delete_false = []
+
+		for plugin in self.keywords:
+			result = op.delete_group_plugins(plugin, fromGroupId)
+			if result['ok'] and result['n'] != 0:
+				print(f"plugin:{plugin} in Group Id : {fromGroupId} delete successfully!")
+			elif not result['ok']:
+				delete_false.append(plugin)
+
+		return delete_false
+
 	def find_all(self, fromGroupId):
 		results = op.find_group_plugins(fromGroupId)
 		collections = []
