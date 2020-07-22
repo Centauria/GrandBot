@@ -2,6 +2,7 @@
   "help" : "help [plugin] : 显示[插件]的使用方法",
   "echo": "echo <内容> : 回复<内容>",
   "reply": "reply : (非命令)自动回复",
+  "reply_at": "reply_at : (非命令)at后智能回复",
   "latex": "latex <公式> : 以图片形式回复latex<公式>",
   "setu": "setu [drawings/hentai/neutral/porn/sexy] : 随机发送setu，默认库为drawings",
   "百度": "百度 <搜索词> [显示字数] : 回复百度搜索<搜索词>的内容",
