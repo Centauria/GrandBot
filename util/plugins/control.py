@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import util.db.mongodb.operation as op
 from util.base.singleton import Singleton
-from util import configuration
+from util import configuration, reload_config
 from .blacklist import Blacklist
 
 
@@ -15,6 +15,7 @@ class PluginControl(object):
 		self.blacklist = Blacklist()
 
 	def refresh(self):
+		configuration = reload_config()
 		self.keywords = configuration.keywords
 
 	def authority(self, fromUserId):
