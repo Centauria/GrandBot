@@ -1,0 +1,5 @@
+{
+  ".refresh": ".refresh : 刷新插件，重新加载配置文件",
+  ".blacklist": ".blacklist [动作] [用户ID] : 已有动作，remove,移除出黑名单",
+  ".param": ".param [插件] [参数] [值] : 修改插件的参数值"
+}

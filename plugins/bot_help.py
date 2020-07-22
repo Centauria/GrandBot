@@ -32,6 +32,18 @@ def receive_group_msg(ctx: GroupMsg):
 
 					action.send_group_text_msg(ctx.FromGroupId, content)
 
+				elif len(command) == 2 and command[1] == "admin":
+
+					content = "管理员帮助：\n"
+
+					with open("res/json/help_admin.json", 'r') as load_file:
+						help_content = json.load(load_file)
+
+					for key, value in help_content.items():
+						content += '\n' + value + '\n'
+
+					action.send_group_text_msg(ctx.FromGroupId, content)
+
 				elif len(command) == 2:
 
 					content = "帮助："

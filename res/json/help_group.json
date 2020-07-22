@@ -1,5 +1,5 @@
 {
-  "help" : "help [plugin] : 显示[插件]的使用方法",
+  "help" : "help [插件/admin] : 显示[插件/管理员]的使用方法",
   "echo": "echo <内容> : 回复<内容>",
   "reply": "reply : (非命令)自动回复",
   "reply_at": "reply_at : (非命令)at后智能回复",
