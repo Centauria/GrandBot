@@ -17,7 +17,12 @@ def receive_group_msg(ctx: GroupMsg):
 
 		action = Action(configuration.qq)
 		if ctx.MsgType == 'AtMsg':
-			content = json.loads(ctx.Content)["Content"].split(" ", 1)[1]
+			all_content = json.loads(ctx.Content)
+			content = all_content["Content"].split(" ", 1)[1]
+
+			# 判断@的人
+			if not all_content["UserID"][0] == configuration.qq:
+				return
 
 			if content == "爬" or content == "爪巴":
 				plugin.blacklist.add(ctx.FromUserId, ctx.FromGroupId, 10 * 60)
