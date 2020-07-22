@@ -23,7 +23,10 @@ def receive_group_msg(ctx: GroupMsg):
                 if len(command) == 2:
                     execute = command[1]
                 else:
-                    execute = "drawings"
+
+                    # param
+                    param = plugin.find_one("setu", ctx.FromGroupId)["param"]
+                    execute = param["default"]
 
                 id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
                 id_image = get_html_text(id_url)

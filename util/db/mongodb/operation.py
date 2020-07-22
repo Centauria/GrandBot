@@ -132,14 +132,30 @@ def insert_friend_msg(ctx: FriendMsg):
 
 # group_plugins
 def insert_group_plugins(plugin, fromGroupId):
-	return db.group_plugins.insert_one(dict(
-		plugin=plugin,
-		from_group_id=fromGroupId,
-	))
+	# 是否有参数
+	with open("res/json/plugins_para.json", 'r') as load_file:
+		plugins_content = json.load(load_file)
+
+	if plugins_content[plugin]:
+		return db.group_plugins.insert_one(dict(
+			plugin=plugin,
+			from_group_id=fromGroupId,
+			param=plugins_content[plugin]
+		))
+	else:
+		return db.group_plugins.insert_one(dict(
+			plugin=plugin,
+			from_group_id=fromGroupId,
+		))
 
 
 def delete_group_plugins(plugin, fromGroupId):
 	return db.group_plugins.remove({"plugin": plugin, "from_group_id": fromGroupId})
+
+
+def update_group_plugins(plugin, fromGroupId, para):
+	return db.group_plugins.update({"plugin": plugin, "from_group_id": fromGroupId}, para)
+
 
 
 def count_group_plugins(plugin, fromGroupId):

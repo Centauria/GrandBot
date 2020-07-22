@@ -19,14 +19,17 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("说话", ctx.FromGroupId):
+				if not plugin.check("说话", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				text = command[1]
-				voiceId = "geyou"
-				speed = "1.5"
-				volume = "100"
-				audioType = "wav"
+
+				# param
+				param = plugin.find_one("说话", ctx.FromGroupId)["param"]
+				voiceId = str(param["voiceId"])
+				speed = str(param["speed"])
+				volume = str(param["volume"])
+				audioType = str(param["audioType"])
 				for i in range(len(command) - 2):
 					if command[i + 2][:8] == 'voiceId=':
 						voiceId = command[i + 2].lstrip('voice=Id')
@@ -46,14 +49,17 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("对话", ctx.FromGroupId):
+				if not plugin.check("对话", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				ask = command[1]
-				voiceId = "geyou"
-				speed = "1.5"
-				volume = "100"
-				audioType = "wav"
+
+				# param
+				param = plugin.find_one("对话", ctx.FromGroupId)["param"]
+				voiceId = str(param["voiceId"])
+				speed = str(param["speed"])
+				volume = str(param["volume"])
+				audioType = str(param["audioType"])
 				for i in range(len(command) - 2):
 					if command[i + 2][:8] == 'voiceId=':
 						voiceId = command[i + 2].lstrip('voice=Id')

@@ -23,7 +23,11 @@ def receive_group_msg(ctx: GroupMsg):
                 latex_content = command[1]
                 url = 'https://quicklatex.com/latex3.f'
 
-                data = {"formula": transfer_spacing(latex_content), "fcolor": "000000", "fsize": "70px", "mode": "0", "out": "1", "remhost": "quicklatex.com"}
+                # param
+                param = plugin.find_one("latex", ctx.FromGroupId)["param"]
+                fsize = str(param["fsize"])
+
+                data = {"formula": transfer_spacing(latex_content), "fcolor": "000000", "fsize": fsize, "mode": "0", "out": "1", "remhost": "quicklatex.com"}
                 response = post(url, data)
                 content = response.text.split("\r\n")
                 if content[0] == "0":

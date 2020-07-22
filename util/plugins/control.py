@@ -46,6 +46,9 @@ class PluginControl(object):
 		else:
 			return "插件 : " + plugin + " 关闭失败"
 
+	def update(self, plugin, fromGroupId, para):
+		return op.update_group_plugins(plugin, fromGroupId, para)
+
 	def add_all(self, fromGroupId):
 		add_false = []
 
@@ -78,6 +81,10 @@ class PluginControl(object):
 		for result in results:
 			collections.append(result)
 		return collections
+
+	def find_one(self, plugin, fromGroupId):
+		result = op.find_one_group_plugins(plugin, fromGroupId)
+		return result
 
 	def check(self, plugin, fromUserId, fromGroupId):
 

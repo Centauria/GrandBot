@@ -1,0 +1,33 @@
+{
+  "help": null,
+  "echo": null,
+  "reply": {
+    "p": 0.08,
+    "q": 0.08,
+    "delay_time": 1.5
+  },
+  "reply_at": null,
+  "latex": {
+    "fsize": "70px"
+  },
+  "setu": {
+    "default": "drawings"
+  },
+  "百度": null,
+  "点歌": null,
+  "计时": null,
+  "闹钟": null,
+  "说话": {
+    "voiceId": "geyou",
+    "speed": "1.5",
+    "volume": "100",
+    "audioType": "wav"
+  },
+  "对话": {
+    "voiceId": "geyou",
+    "speed": "1.5",
+    "volume": "100",
+    "audioType": "wav"
+  },
+  "防撤回": null
+}

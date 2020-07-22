@@ -9,10 +9,6 @@ from util import configuration
 from util.db.mongodb.operation import db
 from util.plugins.control import PluginControl
 
-p = 0.08
-q = 0.08
-delay_time = 1.5
-
 
 # 收到消息以p的概率回复
 # 回复时以q的概率复读
@@ -32,11 +28,17 @@ def receive_group_msg(ctx: GroupMsg):
 	if not plugin.check("reply", ctx.FromUserId, ctx.FromGroupId):
 		return
 
+	# param
+	param = plugin.find_one("reply", ctx.FromGroupId)["param"]
+	p = float(param["p"])
+	q = float(param["q"])
+	delay_time = float(param["delay_time"])
+
 	if random.random() < p and ctx.FromUserId != configuration.qq:
 		time.sleep(random.random() * delay_time)
 		action = Action(configuration.qq)
 		if ctx.MsgType == 'TextMsg' and not plugin.is_command(ctx.Content.split(' ', 1)[0], ctx.FromGroupId):
-			action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content))
+			action.send_group_text_msg(ctx.FromGroupId, replace_text_msg(ctx.Content, q))
 		elif ctx.MsgType == 'PicMsg':
 			pic_msg = json.loads(ctx.Content)
 			for pic_content in pic_msg['GroupPic']:
@@ -45,7 +47,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 
 # 复读替换关键词
-def replace_text_msg(msg):
+def replace_text_msg(msg, q):
 	r = random.random()
 	reply_set = []
 	s = msg
