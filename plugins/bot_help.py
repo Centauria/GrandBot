@@ -51,9 +51,10 @@ def receive_friend_msg(ctx: FriendMsg):
 
 			plugin = PluginControl()
 
+			with open("res/json/help_friend.json", 'r') as load_file:
+				help_content = json.load(load_file)
+
 			if len(command) == 1:
-				with open("res/json/help_friend.json", 'r') as load_file:
-					help_content = json.load(load_file)
 
 				content = "帮助：\n"
 				for key, value in help_content.items():
@@ -61,3 +62,13 @@ def receive_friend_msg(ctx: FriendMsg):
 						content += '\n' + value + '\n'
 
 				action.send_friend_text_msg(ctx.FromUin, content)
+
+			elif len(command) == 2:
+
+				content = "帮助："
+				for key, value in help_content.items():
+					if command[1] == key and key in plugin.keywords:
+						content += value
+
+				if not content == "帮助：":
+					action.send_friend_text_msg(ctx.FromUin, content)

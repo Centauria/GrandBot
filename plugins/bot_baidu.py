@@ -42,7 +42,7 @@ def receive_group_msg(ctx: GroupMsg):
                         action.send_group_text_msg(ctx.FromGroupId, "爷发现你输入了非法参数！")
 
 
-def receive_friens_msg(ctx: FriendMsg):
+def receive_friend_msg(ctx: FriendMsg):
 
     action = Action(configuration.qq)
     if ctx.MsgType == 'TextMsg':
