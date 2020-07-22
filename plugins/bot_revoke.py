@@ -10,13 +10,14 @@ logger = logging.Logger('bot_revoke')
 
 def receive_events(ctx: dict):
 
-    # check
-    plugin = PluginControl()
-    if not plugin.check("防撤回", ctx['CurrentPacket']['Data']['EventData']['GroupID']):
-        return
+    if ctx['CurrentPacket']['Data']['EventName'] == 'ON_EVENT_GROUP_REVOKE' and\
+            ctx['CurrentPacket']['Data']['EventData']['UserID'] != configuration.qq:
 
-    if ctx['CurrentPacket']['Data']['EventData']['UserID'] != configuration.qq and \
-            ctx['CurrentPacket']['Data']['EventName'] == 'ON_EVENT_GROUP_REVOKE':
+        # check
+        plugin = PluginControl()
+        if not plugin.check("防撤回", ctx['CurrentPacket']['Data']['EventData']['GroupID']):
+            return
+
         action = Action(configuration.qq)
         msg_set = ctx['CurrentPacket']['Data']['EventData']
         msg_seq = msg_set['MsgSeq']
