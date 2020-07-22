@@ -19,7 +19,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("说话", ctx.FromGroupId):
+				if not plugin.check("说话", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				text = command[1]
@@ -46,7 +46,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("对话", ctx.FromGroupId):
+				if not plugin.check("对话", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				ask = command[1]

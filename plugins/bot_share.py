@@ -18,7 +18,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("点歌", ctx.FromGroupId):
+				if not plugin.check("点歌", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				if len(command) == 2:

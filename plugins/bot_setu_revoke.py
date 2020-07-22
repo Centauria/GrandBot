@@ -10,7 +10,7 @@ def receive_group_msg(ctx: GroupMsg):
 
         # check
         plugin = PluginControl()
-        if not plugin.check("setu", ctx.FromGroupId):
+        if not plugin.check("setu", ctx.FromUserId, ctx.FromGroupId):
             return
 
         action = Action(configuration.qq)

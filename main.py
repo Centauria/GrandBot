@@ -39,6 +39,13 @@ def on_group_msg(ctx: GroupMsg):
 			action.send_group_text_msg(ctx.FromGroupId, '插件已刷新')
 		elif content == 'test':
 			action.send_group_pic_msg(ctx.FromGroupId, 'https://t.cn/A6Am7xYO')
+		elif content.split(' ', 1)[0] == 'blacklist':
+			command = content.split(' ')
+			if len(command) == 3 and command[1] == "remove":
+				if plugins.blacklist.delete(int(command[2]), ctx.FromGroupId):
+					action.send_group_text_msg(ctx.FromGroupId, '用户 ' + command[2] + " 已成功从黑名单移除！")
+				else:
+					action.send_group_text_msg(ctx.FromGroupId, "黑名单移除失败！")
 		else:
 			action.send_group_text_msg(ctx.FromGroupId, '不要乱发指令啊喂')
 

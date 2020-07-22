@@ -43,7 +43,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("计时", ctx.FromGroupId):
+				if not plugin.check("计时", ctx.FromUserId, ctx.FromGroupId):
 					return
 				command_time = ctx.Content.lstrip("计时 ")
 				if time_shift(command_time):
@@ -64,7 +64,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("闹钟", ctx.FromGroupId):
+				if not plugin.check("闹钟", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				command = ctx.Content.lstrip("闹钟 ").split(' ', 1)

@@ -17,7 +17,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 				# check
 				plugin = PluginControl()
-				if not plugin.check("help", ctx.FromGroupId):
+				if not plugin.check("help", ctx.FromUserId, ctx.FromGroupId):
 					return
 
 				with open("res/json/help_group.json", 'r') as load_file:

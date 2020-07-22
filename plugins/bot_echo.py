@@ -11,7 +11,7 @@ def receive_group_msg(ctx: GroupMsg):
 
 		# check
 		plugin = PluginControl()
-		if not plugin.check("echo", ctx.FromGroupId):
+		if not plugin.check("echo", ctx.FromUserId, ctx.FromGroupId):
 			return
 
 		action = Action(configuration.qq)

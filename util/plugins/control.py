@@ -2,6 +2,7 @@
 import util.db.mongodb.operation as op
 from util.base.singleton import Singleton
 from util import configuration
+from .blacklist import Blacklist
 
 
 @Singleton
@@ -10,6 +11,8 @@ class PluginControl(object):
 	def __init__(self):
 		# 初始化关键字数组
 		self.keywords = configuration.keywords
+		# 初始化黑名单类
+		self.blacklist = Blacklist()
 
 	def refresh(self):
 		self.keywords = configuration.keywords
@@ -75,9 +78,18 @@ class PluginControl(object):
 			collections.append(result)
 		return collections
 
-	def check(self, plugin, fromGroupId):
-		result = op.find_one_group_plugins(plugin, fromGroupId)
-		return result
+	def check(self, plugin, fromUserId, fromGroupId):
+
+		# plugin检测
+		result_plugin = op.find_one_group_plugins(plugin, fromGroupId)
+
+		# blacklist检测
+		result_blacklist = self.blacklist.check(int(fromUserId), int(fromGroupId))
+
+		if result_plugin and not result_blacklist:
+			return True
+		else:
+			return False
 
 	def is_command(self, command, fromGroupId):
 		for key in self.keywords:

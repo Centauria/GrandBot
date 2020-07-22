@@ -12,7 +12,7 @@ def receive_group_msg(ctx: GroupMsg):
 
         # check
         plugin = PluginControl()
-        if not plugin.check("latex", ctx.FromGroupId):
+        if not plugin.check("latex", ctx.FromUserId, ctx.FromGroupId):
             return
 
         action = Action(configuration.qq)

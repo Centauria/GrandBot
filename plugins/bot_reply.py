@@ -29,7 +29,7 @@ delay_time = 1.5
 def receive_group_msg(ctx: GroupMsg):
 	# check
 	plugin = PluginControl()
-	if not plugin.check("reply", ctx.FromGroupId):
+	if not plugin.check("reply", ctx.FromUserId, ctx.FromGroupId):
 		return
 
 	if random.random() < p and ctx.FromUserId != configuration.qq:
