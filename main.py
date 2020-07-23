@@ -2,7 +2,8 @@
 import os
 import logging
 import argparse
-from iotbot import IOTBOT, Action, GroupMsg, FriendMsg
+from functools import partial
+from iotbot import IOTBOT, Action
 
 from util import configuration
 from util.plugins.control import PluginControl
@@ -26,36 +27,29 @@ action = Action(bot)
 # 插件控制类
 plugins = PluginControl()
 
+# admin命令接受
 
-@bot.on_group_msg
-def on_group_msg(ctx: GroupMsg):
-	if ctx.FromUserId in configuration.admin and ctx.MsgType == 'TextMsg' and ctx.Content[0] == '.':
-		content = ctx.Content.lstrip('.')
-		if content == 'refresh':
-			bot.refresh_plugins()
-			plugins.refresh()
-			print("可用插件：")
-			print(plugins.keywords, '\n')
-			action.send_group_text_msg(ctx.FromGroupId, '插件已刷新')
-		elif content == 'test':
-			action.send_group_pic_msg(ctx.FromGroupId, 'https://t.cn/A6Am7xYO')
-		elif content.split(' ', 1)[0] in ["blacklist", "param"]:
-			return
-		else:
-			action.send_group_text_msg(ctx.FromGroupId, '不要乱发指令啊喂')
+from admin.admin_else import admin_else_group, admin_else_friend
 
+bot.add_group_msg_receiver(admin_else_group)
+bot.add_friend_msg_receiver(admin_else_friend)
 
-@bot.on_friend_msg
-def on_friend_msg(ctx: FriendMsg):
-	if ctx.FromUin in configuration.admin and ctx.MsgType == 'TextMsg' and ctx.Content[0] == '.':
-		content = ctx.Content.lstrip('.')
-		if content == 'refresh':
-			bot.refresh_plugins()
-			action.send_friend_text_msg(ctx.FromUin, '插件已刷新')
-		elif content == 'test':
-			action.send_friend_pic_msg(ctx.FromUin, content='', picUrl='https://t.cn/A6Am7xYO')
-		else:
-			action.send_friend_text_msg(ctx.FromUin, '不要乱发指令啊喂')
+from admin.admin_refresh import admin_refresh_group, admin_refresh_friend
 
+bot.add_group_msg_receiver(partial(admin_refresh_group, bot))
+bot.add_friend_msg_receiver(partial(admin_refresh_friend, bot))
+
+from admin.admin_test import admin_test_group, admin_test_friend
+
+bot.add_group_msg_receiver(admin_test_group)
+bot.add_friend_msg_receiver(admin_test_friend)
+
+from admin.admin_blacklist import admin_blacklist_group
+
+bot.add_group_msg_receiver(admin_blacklist_group)
+
+from admin.admin_param import admin_param_group
+
+bot.add_group_msg_receiver(admin_param_group)
 
 bot.run()
