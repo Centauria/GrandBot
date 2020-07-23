@@ -2,6 +2,7 @@
 import os
 import logging
 import argparse
+import _thread
 from functools import partial
 from iotbot import IOTBOT, Action
 
@@ -51,5 +52,19 @@ bot.add_group_msg_receiver(admin_blacklist_group)
 from admin.admin_param import admin_param_group
 
 bot.add_group_msg_receiver(admin_param_group)
+
+# HTTP Server for admin
+from http_server.http_server import *
+
+_thread.start_new_thread(app.run, ("127.0.0.1", 9001,))
+
+
+# 需要引用bot的命令
+@app.route('/refresh', methods=['GET', 'POST'])
+def http_refresh():
+	content = ".refresh"
+	fromId = 0
+	return http_refresh_raw(bot, content, fromId)
+
 
 bot.run()

@@ -15,14 +15,13 @@ def admin_blacklist(flag, content, fromId):
 	if content.split(' ', 1)[0] == 'blacklist':
 		command = content.split(' ')
 		if len(command) == 3 and command[1] == "remove":
-
 			plugins = PluginControl()
 			if plugins.blacklist.delete(int(command[2]), fromId):
-				action_in_type(fromId, '用户 ' + command[2] + " 已成功从黑名单移除！", flag)
+				return action_in_type(fromId, '用户 ' + command[2] + " 已成功从黑名单移除！", flag)
 			else:
-				action_in_type(fromId, "黑名单移除失败！", flag)
+				return action_in_type(fromId, "黑名单移除失败！", flag)
 		else:
-			action_in_type(fromId, "命令格式错误", flag)
+			return action_in_type(fromId, "命令格式错误", flag)
 
 
 def action_in_type(fromId, content, flag):
@@ -30,4 +29,4 @@ def action_in_type(fromId, content, flag):
 		action = Action(configuration.qq)
 		return action.send_group_text_msg(fromId, content)
 	else:
-		return fromId, content
+		return content

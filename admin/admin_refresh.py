@@ -30,4 +30,5 @@ def admin_refresh(bot, flag, content, fromId):
 			action = Action(configuration.qq)
 			action.send_friend_text_msg(fromId, '插件已刷新')
 		else:
+			bot.refresh_plugins()
 			return '插件已刷新'

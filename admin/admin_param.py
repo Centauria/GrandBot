@@ -23,11 +23,9 @@ def admin_param(flag, content, fromId):
 
 			# 命令的插件、参数允许
 			if command[1] not in json_content:
-				action_in_type(fromId, "插件未开启", flag)
-				return
+				return action_in_type(fromId, "插件未开启", flag)
 			if command[2] not in json_content[command[1]]:
-				action_in_type(fromId, "参数不存在", flag)
-				return
+				return action_in_type(fromId, "参数不存在", flag)
 
 			key = "param." + command[2]
 			para = {"$set": {key: command[3]}}
@@ -35,13 +33,12 @@ def admin_param(flag, content, fromId):
 			plugins = PluginControl()
 			result = plugins.update(command[1], fromId, para)
 			if not result["ok"] or not result["nModified"]:
-				action_in_type(fromId, "参数更新失败", flag)
-				return
+				return action_in_type(fromId, "参数更新失败", flag)
 
-			action_in_type(fromId, "参数更新成功", flag)
+			return action_in_type(fromId, "参数更新成功", flag)
 
 		else:
-			action_in_type(fromId, "命令格式错误", flag)
+			return action_in_type(fromId, "命令格式错误", flag)
 
 
 def action_in_type(fromId, content, flag):
@@ -49,4 +46,4 @@ def action_in_type(fromId, content, flag):
 		action = Action(configuration.qq)
 		return action.send_group_text_msg(fromId, content)
 	else:
-		return fromId, content
+		return content

@@ -16,7 +16,7 @@ def admin_else_friend(ctx: FriendMsg):
 
 
 def admin_else(flag, content, fromId):
-	content = content.lstrip('.')
+	content = content.lstrip('.').split(" ", 1)[0]
 
 	if content not in admin_command_set:
 
