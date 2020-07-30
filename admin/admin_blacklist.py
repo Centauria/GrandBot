@@ -14,17 +14,7 @@ def admin_blacklist(flag, content, fromId):
 
 	if content.split(' ', 1)[0] == 'blacklist':
 		command = content.split(' ')
-		if len(command) == 2 and command[1] == "find":
-			plugins = PluginControl()
-			result = plugins.blacklist.find_all(int(fromId))
-			if len(result) == 0:
-				return {"result": False, "content": {}}
-			else:
-				list = result[0]
-				return {"result": True, "content": {"userId": list["user_id"], "startTime": list["start_time"],
-													"interval": list["interval"]}}
-
-		elif len(command) == 3 and command[1] == "remove":
+		if len(command) == 3 and command[1] == "remove":
 			plugins = PluginControl()
 			if plugins.blacklist.delete(int(command[2]), fromId):
 				return action_in_type(fromId, '用户 ' + command[2] + " 已成功从黑名单移除！", flag, True)
@@ -40,3 +30,14 @@ def action_in_type(fromId, content, flag, result):
 		return action.send_group_text_msg(fromId, content)
 	else:
 		return {"result": result, "content": content}
+
+
+def admin_blacklist_find(GroupId: int, page: int, page_size: int):
+	plugins = PluginControl()
+	list = plugins.blacklist.find_all(GroupId)
+	if len(list) == 0:
+		return {"result": False, "content": {}}
+
+	start = (page - 1) * page_size
+	end = min(page * page_size, len(list))
+	return {"result": True, "content": list[start:end]}

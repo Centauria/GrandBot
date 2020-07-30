@@ -31,4 +31,4 @@ def admin_refresh(bot, flag, content, fromId):
 			action.send_friend_text_msg(fromId, '插件已刷新')
 		else:
 			bot.refresh_plugins()
-			return {"result":True, "content":'插件已刷新'}
+			return {"result": True, "content": '插件已刷新'}

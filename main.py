@@ -64,7 +64,7 @@ _thread.start_new_thread(app.run, ("127.0.0.1", 9001,))
 def http_refresh():
 	content = ".refresh"
 	fromId = 0
-	return http_refresh_raw(bot, content, fromId)
+	return {"result": True, "content": http_refresh_raw(bot, content, fromId)}
 
 
 bot.run()

@@ -16,28 +16,16 @@ def admin_param(flag, content, fromId):
 	if content.split(' ', 1)[0] == 'param':
 		command = content.split(' ')
 
-		if len(command) == 2 and command[1] == "find":
-			plugins = PluginControl()
-			result = plugins.find_all(int(fromId))
-			if len(result) == 0:
-				return {}
-			else:
-				list = []
-				for plugin in result:
-					param = plugin["param"] if "param" in plugin else {}
-					list.append({"plugin": plugin["plugin"], "param": param})
-				return list
-
-		elif len(command) == 4:
+		if len(command) == 4:
 			# 允许的参数列表
 			with open("res/json/plugins_para.json", "r") as load_file:
 				json_content = json.load(load_file)
 
 			# 命令的插件、参数允许
 			if command[1] not in json_content:
-				return action_in_type(fromId, "插件未开启", flag)
+				return action_in_type(fromId, "插件未开启", flag, False)
 			if command[2] not in json_content[command[1]]:
-				return action_in_type(fromId, "参数不存在", flag)
+				return action_in_type(fromId, "参数不存在", flag, False)
 
 			key = "param." + command[2]
 			para = {"$set": {key: command[3]}}
@@ -50,7 +38,7 @@ def admin_param(flag, content, fromId):
 			return action_in_type(fromId, "参数更新成功", flag, True)
 
 		else:
-			return action_in_type(fromId, "命令格式错误", flag)
+			return action_in_type(fromId, "命令格式错误", flag, False)
 
 
 def action_in_type(fromId, content, flag, result):
@@ -59,3 +47,14 @@ def action_in_type(fromId, content, flag, result):
 		return action.send_group_text_msg(fromId, content)
 	else:
 		return {"result": result, "content": content}
+
+
+def admin_param_find(GroupId: int, page: int, page_size: int):
+	plugins = PluginControl()
+	list = plugins.find_all(GroupId)
+	if len(list) == 0:
+		return {"result": False, "content": {}}
+
+	start = (page - 1) * page_size
+	end = min(page * page_size, len(list))
+	return {"result": True, "content": list[start:end]}
