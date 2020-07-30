@@ -16,7 +16,19 @@ def admin_param(flag, content, fromId):
 	if content.split(' ', 1)[0] == 'param':
 		command = content.split(' ')
 
-		if len(command) == 4:
+		if len(command) == 2 and command[1] == "find":
+			plugins = PluginControl()
+			result = plugins.find_all(int(fromId))
+			if len(result) == 0:
+				return {}
+			else:
+				list = []
+				for plugin in result:
+					param = plugin["param"] if "param" in plugin else {}
+					list.append({"plugin": plugin["plugin"], "param": param})
+				return list
+
+		elif len(command) == 4:
 			# 允许的参数列表
 			with open("res/json/plugins_para.json", "r") as load_file:
 				json_content = json.load(load_file)
@@ -33,17 +45,17 @@ def admin_param(flag, content, fromId):
 			plugins = PluginControl()
 			result = plugins.update(command[1], fromId, para)
 			if not result["ok"] or not result["nModified"]:
-				return action_in_type(fromId, "参数更新失败", flag)
+				return action_in_type(fromId, "参数更新失败", flag, False)
 
-			return action_in_type(fromId, "参数更新成功", flag)
+			return action_in_type(fromId, "参数更新成功", flag, True)
 
 		else:
 			return action_in_type(fromId, "命令格式错误", flag)
 
 
-def action_in_type(fromId, content, flag):
+def action_in_type(fromId, content, flag, result):
 	if flag == 1:
 		action = Action(configuration.qq)
 		return action.send_group_text_msg(fromId, content)
 	else:
-		return content
+		return {"result": result, "content": content}

@@ -27,4 +27,4 @@ def admin_else(flag, content, fromId):
 			action = Action(configuration.qq)
 			action.send_friend_text_msg(fromId, "不要乱发指令啊喂")
 		else:
-			return "不要乱发指令啊喂"
+			return {"result": True, "content": "不要乱发指令啊喂"}

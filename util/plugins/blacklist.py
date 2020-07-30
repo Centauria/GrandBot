@@ -11,7 +11,7 @@ class Blacklist(object):
 		pass
 
 	# 判断是否在黑名单
-	def check(self, userId:int, groupId:int):
+	def check(self, userId: int, groupId: int):
 		result = op.find_one_group_blacklist(userId, groupId)
 		if not result:
 			return False
@@ -38,7 +38,7 @@ class Blacklist(object):
 		else:
 			return False
 
-	def find_all(self, groupId):
+	def find_all(self, groupId:int):
 		results = op.find_group_blacklist(groupId)
 		collections = []
 		for result in results:

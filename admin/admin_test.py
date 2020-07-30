@@ -25,4 +25,4 @@ def admin_test(flag, content, fromId):
 			action = Action(configuration.qq)
 			action.send_friend_pic_msg(fromId, 'https://t.cn/A6Am7xYO')
 		else:
-			return 'https://t.cn/A6Am7xYO'
+			return {"result": True, "content": 'https://t.cn/A6Am7xYO'}

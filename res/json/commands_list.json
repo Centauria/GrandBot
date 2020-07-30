@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "refresh",
+    "notice": ".refresh"
+  },
+  {
+    "id": 2,
+    "name": "test",
+    "notice": ".test"
+  },
+  {
+    "id": 3,
+    "name": "blacklist",
+    "notice": ".blacklist remove QQaccount"
+  },
+  {
+    "id": 4,
+    "name": "param",
+    "notice": ".param pluginName paramName paramValue"
+  }
+]

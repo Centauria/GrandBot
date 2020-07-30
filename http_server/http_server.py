@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request
+from flask import Flask, request, Response
 from admin.admin_refresh import admin_refresh
 from admin.admin_test import admin_test
 from admin.admin_blacklist import admin_blacklist
 from admin.admin_param import admin_param
 from .http_auth import *
+from .http_get_bots import *
+from .http_get_groups import *
+from .http_get_commands import *
 
 app = Flask(__name__)
 
@@ -18,6 +21,95 @@ def http_refresh_raw(bot, content, fromId):
 @app.route('/', methods=['GET', 'POST'])
 def http_hello():
 	return "欢迎来到 IOTBOT app 后台！"
+
+
+@app.route('/login', methods=['POST'])
+def http_login():
+	post_data = request.form
+	auth_result = auth(post_data)
+	if auth_result == 0:
+		return str(post_data["fromId"])
+	else:
+		return auth_result
+
+
+@app.route('/avatar', methods=['GET'])
+def http_avatar():
+	get_data = request.args
+	if "user" in get_data:
+		url = ""
+		with open("res/json/admin_avatar_url.json", 'r') as load_file:
+			avatar_list = json.load(load_file)
+		for bot in avatar_list:
+			if bot["account"] == get_data["user"]:
+				url = bot["avatar_url"]
+		if url == "":
+			return
+		else:
+			with open("res/image/" + url, 'rb') as f:
+				image = f.read()
+			resp = Response(image, mimetype="image/jpeg")
+			return resp
+	else:
+		return
+
+
+@app.route('/botslist', methods=['POST'])
+def http_botslist():
+	get_data = request.args
+	post_data = request.form
+	auth_result = auth(post_data)
+	if auth_result == 0:
+		if "page" not in get_data or "page_size" not in get_data:
+			return "命令错误：参数错误"
+		page = int(get_data["page"])
+		page_size = int(get_data["page_size"])
+		list = botsList()
+		start = (page - 1) * page_size
+		end = min(page * page_size, len(list))
+
+		return {"data": list[start:end]}
+	else:
+		return auth_result
+
+
+@app.route('/groupslist', methods=['POST'])
+def http_groupslist():
+	get_data = request.args
+	post_data = request.form
+	auth_result = auth(post_data)
+	if auth_result == 0:
+		if "page" not in get_data or "page_size" not in get_data or "content" not in post_data:
+			return "命令错误：参数错误"
+		page = int(get_data["page"])
+		page_size = int(get_data["page_size"])
+		list = groupsList(post_data["content"])
+		start = (page - 1) * page_size
+		end = min(page * page_size, len(list))
+
+		return {"data": list[start:end]}
+	else:
+		return auth_result
+
+
+@app.route('/commandslist', methods=['POST'])
+def http_commandslist():
+	get_data = request.args
+	post_data = request.form
+	auth_result = auth(post_data)
+	if auth_result == 0:
+		if "page" not in get_data or "page_size" not in get_data:
+			return "命令错误：参数错误"
+
+		page = int(get_data["page"])
+		page_size = int(get_data["page_size"])
+		list = commandsList()
+		start = (page - 1) * page_size
+		end = min(page * page_size, len(list))
+
+		return {"data": list[start:end]}
+	else:
+		return auth_result
 
 
 @app.route('/test', methods=['POST'])
