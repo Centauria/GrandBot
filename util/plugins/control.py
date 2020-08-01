@@ -29,22 +29,22 @@ class PluginControl(object):
 			result = op.insert_group_plugins(new_plugin, fromGroupId)
 			if result.inserted_id:
 				print(f"plugin:{new_plugin} in Group Id : {fromGroupId} has been opened!")
-				return "插件 : " + new_plugin + " 打开成功"
+				return {"result": True, "content": "插件 : " + new_plugin + " 打开成功"}
 			else:
-				return "插件 : " + new_plugin + " 打开失败"
+				return {"result": False, "content": "插件 : " + new_plugin + " 打开失败"}
 		else:
 			print(f"plugin:{new_plugin} in Group Id : {fromGroupId} is already opened!")
-			return "插件 : " + new_plugin + " 已处于开启状态"
+			return {"result": False, "content": "插件 : " + new_plugin + " 已处于开启状态"}
 
 	def delete(self, plugin, fromGroupId):
 		result = op.delete_group_plugins(plugin, fromGroupId)
 		if result['ok'] and result['n'] != 0:
 			print(f"plugin:{plugin} in Group Id : {fromGroupId} delete successfully!")
-			return "插件 : " + plugin + " 关闭成功"
+			return {"result": True, "content": "插件 : " + plugin + " 关闭成功"}
 		elif result['ok'] and result['n'] == 0:
-			return "插件 : " + plugin + " 未开启"
+			return {"result": False, "content": "插件 : " + plugin + " 未开启"}
 		else:
-			return "插件 : " + plugin + " 关闭失败"
+			return {"result": False, "content": "插件 : " + plugin + " 关闭失败"}
 
 	def update(self, plugin, fromGroupId, para):
 		return op.update_group_plugins(plugin, fromGroupId, para)

@@ -4,6 +4,7 @@ from admin.admin_refresh import admin_refresh
 from admin.admin_test import admin_test
 from admin.admin_blacklist import admin_blacklist, admin_blacklist_find
 from admin.admin_param import admin_param, admin_param_find
+from admin.admin_plugins import admin_plugins, admin_plugins_find
 from .http_auth import *
 from .http_get_bots import *
 from .http_get_groups import *
@@ -175,6 +176,33 @@ def http_param():
 				return admin_param_find(int(get_data["fromGroupId"]), page, page_size)
 			else:
 				result = admin_param(0, post_data["content"], int(get_data["fromGroupId"]))
+				if result:
+					return result
+				else:
+					return {"result": False, "content": "命令错误：非法命令"}
+		else:
+			return {"result": False, "content": "命令错误：请提交命令内容"}
+	else:
+		return {"result": False, "content": auth_result}
+
+
+@app.route('/plugins', methods=['POST'])
+def http_plugins():
+	get_data = request.args
+	post_data = request.form
+	auth_result = auth(post_data)
+	if auth_result == 0:
+		if "content" in post_data and "fromGroupId" in get_data:
+			if post_data["content"] == ".plugins find":
+
+				if "page" not in get_data or "page_size" not in get_data:
+					return {"result": False, "content": "命令错误：参数错误"}
+
+				page = int(get_data["page"])
+				page_size = int(get_data["page_size"])
+				return admin_plugins_find(int(get_data["fromGroupId"]), page, page_size)
+			else:
+				result = admin_plugins(0, post_data["content"], int(get_data["fromGroupId"]))
 				if result:
 					return result
 				else:

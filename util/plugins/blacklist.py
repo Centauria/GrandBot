@@ -21,12 +21,12 @@ class Blacklist(object):
 		return True
 
 	# 增加黑名单
-	def add(self, userId: int, groupId: int, interval, srartTime=int(time.time())):
-		if not op.count_group_blacklist(userId, groupId):
-			result = op.insert_group_blacklist(userId, groupId, interval, srartTime)
-			return result
-		else:
-			return False
+	def add(self, userId: int, groupId: int, interval, srartTime):
+		if op.count_group_blacklist(userId, groupId):
+			op.delete_group_blacklist(userId, groupId)
+
+		result = op.insert_group_blacklist(userId, groupId, interval, srartTime)
+		return result
 
 	# 删除黑名单
 	def delete(self, userId: int, groupId: int):
@@ -38,7 +38,7 @@ class Blacklist(object):
 		else:
 			return False
 
-	def find_all(self, groupId:int):
+	def find_all(self, groupId: int):
 		results = op.find_group_blacklist(groupId)
 		collections = []
 		for result in results:

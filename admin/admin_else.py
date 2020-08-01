@@ -2,7 +2,7 @@
 from iotbot import GroupMsg, FriendMsg, Action
 from util import configuration
 
-admin_command_set = ["refresh", "test", "blacklist", "param"]
+admin_command_set = ["refresh", "test", "blacklist", "param", "plugins"]
 
 
 def admin_else_group(ctx: GroupMsg):

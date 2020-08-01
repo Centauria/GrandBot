@@ -52,6 +52,13 @@ def action_in_type(fromId, content, flag, result):
 def admin_param_find(GroupId: int, page: int, page_size: int):
 	plugins = PluginControl()
 	list = plugins.find_all(GroupId)
+
+	id = 1
+	for plugin in list:
+		plugin.pop("_id")
+		plugin["id"] = id
+		id += 1
+
 	if len(list) == 0:
 		return {"result": False, "content": {}}
 

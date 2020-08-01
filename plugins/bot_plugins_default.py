@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
 from iotbot import Action
-from util.db.mongodb.operation import find_group_msg_by_msg_seq, find_img_by_id
 from util import configuration
 from util.plugins.control import PluginControl
 
@@ -18,7 +17,7 @@ def receive_events(ctx: dict):
 		msg = "爷来啦！\n\n默认开启插件：\n"
 		for plugin_default in configuration.keywords_default:
 			print(plugin_default)
-			msg += plugins.add(plugin_default, msg_group_id) + '\n'
+			msg += plugins.add(plugin_default, msg_group_id)["content"] + '\n'
 		msg.rstrip('\n')
 
 		results = plugins.find_all(msg_group_id)

@@ -2,6 +2,7 @@
 import json
 from iotbot import GroupMsg, Action
 from util import configuration
+import time
 from util.network.request import get_html_text
 from util.plugins.control import PluginControl
 
@@ -25,7 +26,7 @@ def receive_group_msg(ctx: GroupMsg):
 				return
 
 			if content == "爬" or content == "爪巴":
-				plugin.blacklist.add(ctx.FromUserId, ctx.FromGroupId, 10 * 60)
+				plugin.blacklist.add(ctx.FromUserId, ctx.FromGroupId, 10 * 60, srartTime=int(time.time()))
 				action.send_group_text_msg(ctx.FromGroupId, content="爬什么爬，午夜凶铃啊！十分钟后再和我说话！", atUser=ctx.FromUserId)
 			else:
 				res_url = "https://api.ownthink.com/bot?appid=xiaosi&spoken=" + content
