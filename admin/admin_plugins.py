@@ -2,6 +2,7 @@
 from iotbot import GroupMsg, Action
 from util import configuration
 from util.plugins.control import PluginControl
+from .action_in_type import action_in_type
 import json
 
 
@@ -71,12 +72,6 @@ def admin_plugins(flag, content, fromId):
 			return action_in_type(fromId, content, flag, False)
 
 
-def action_in_type(fromId, content, flag, result):
-	if flag == 1:
-		action = Action(configuration.qq)
-		return action.send_group_text_msg(fromId, content)
-	else:
-		return {"result": result, "content": content}
 
 
 def admin_plugins_find(GroupId: int, page: int, page_size: int):
