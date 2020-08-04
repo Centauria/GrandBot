@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+import json
+
 from iotbot import GroupMsg, FriendMsg, Action
+
 from util import configuration
 from util.network.request import get_html_text
-import json
 from util.plugins.control import PluginControl
 
 
@@ -36,19 +38,22 @@ def receive_group_msg(ctx: GroupMsg):
 
 
 def receive_friend_msg(ctx: FriendMsg):
+    setu_allow = False
     if ctx.FromUin != configuration.qq:
         action = Action(configuration.qq)
         if ctx.MsgType == 'TextMsg':
             command = ctx.Content.split(' ')
             if command[0] == "setu":
+                if setu_allow:
+                    if len(command) == 2:
+                        execute = command[1]
+                    else:
+                        execute = "drawings"
 
-                if len(command) == 2:
-                    execute = command[1]
+                    id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
+                    id_image = get_html_text(id_url)
+                    id_json = json.loads(id_image)
+                    url = "http://jinfans.top/setu/latest/view/direct/" + id_json["_id"]
+                    action.send_friend_pic_msg(ctx.FromUin, content=execute, picUrl=url)
                 else:
-                    execute = "drawings"
-
-                id_url = "http://jinfans.top/setu/latest/view/random?type=" + execute
-                id_image = get_html_text(id_url)
-                id_json = json.loads(id_image)
-                url = "http://jinfans.top/setu/latest/view/direct/" + id_json["_id"]
-                action.send_friend_pic_msg(ctx.FromUin, content=execute, picUrl=url)
+                    action.send_friend_text_msg(ctx.FromUin, content='你在想🍑')
