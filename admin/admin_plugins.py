@@ -97,7 +97,7 @@ def admin_plugins_find(GroupId: int, page: int, page_size: int):
 				flag = 1
 				break
 		if not flag:
-			if plugins_content[keyword] :
+			if plugins_content[keyword]:
 				param = plugins_content[keyword]
 			else:
 				param ={}

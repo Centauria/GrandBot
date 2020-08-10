@@ -29,5 +29,10 @@
     "volume": "100",
     "audioType": "wav"
   },
-  "防撤回": null
+  "防撤回": null,
+  "绝对音感测试": {
+    "time": 15,
+    "low": 0,
+    "high": 87
+  }
 }
