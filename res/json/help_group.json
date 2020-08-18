@@ -4,6 +4,7 @@
   "reply": "reply : (非命令)自动回复",
   "reply_at": "reply_at : (非命令)at后智能回复",
   "latex": "latex <公式> : 以图片形式回复latex<公式>",
+  "python": "newpython/runpython",
   "setu": "setu [drawings/hentai/neutral/porn/sexy] : 随机发送setu，默认库为drawings",
   "百度": "百度 <搜索词> [显示字数] : 回复百度搜索<搜索词>的内容",
   "点歌": "点歌 <搜索词> [分享条数i] : 分享qq音乐搜索<搜索词>的第i个结果",
